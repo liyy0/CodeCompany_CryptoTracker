@@ -1,6 +1,8 @@
 package com.example.codecompany_cryptotracker.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -16,44 +18,62 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
+
 import com.example.codecompany_cryptotracker.domain.Asset
 import com.example.codecompany_cryptotracker.ui.theme.CodeCompany_CryptoTrackerTheme
+import com.example.codecompany_cryptotracker.util.loadAssets
 
 @Composable
-fun AssetList(assets: List<Asset>) {
-    val sortedAssets = assets.sortedByDescending { it.volume_1day_usd ?: 0.0 }
+fun AssetList(navController: NavController) {
+    val context = LocalContext.current
+    val assets = remember { loadAssets(context) }
+
     LazyColumn {
-        items(sortedAssets) { asset ->
+        items(assets) { asset ->
             if (asset.type_is_crypto == 1){
-                AssetItem(asset)
+                AssetItem(asset,
+                    onItemClick = {
+                        Log.d("AssetList", "Asset clicked: ${asset.asset_id}")
+                        navController.navigate("AssetDetail/${asset.asset_id}")
+                    })
             }
 
         }
     }
 }
 
+
+
 @Composable
-fun AssetItem(asset: Asset,
+fun AssetItem(
+              asset: Asset,
+              onItemClick: () -> Unit,
               modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onItemClick() },
         shape = RoundedCornerShape(8.dp), // Adds rounded corners to the Card
-        elevation =  CardDefaults.cardElevation()
+        elevation =  CardDefaults.cardElevation(),
+
     ) {
         Row(
             modifier = Modifier
@@ -83,10 +103,3 @@ fun AssetItem(asset: Asset,
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun Preview() {
-//   AssetItem(asset = )
-//}
-
