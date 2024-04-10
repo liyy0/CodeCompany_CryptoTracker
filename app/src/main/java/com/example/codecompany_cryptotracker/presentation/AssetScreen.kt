@@ -22,6 +22,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,8 +36,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
+import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 
 import com.example.codecompany_cryptotracker.domain.Asset
+import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.ui.theme.CodeCompany_CryptoTrackerTheme
 import com.example.codecompany_cryptotracker.util.loadAssets
 
@@ -44,6 +47,9 @@ import com.example.codecompany_cryptotracker.util.loadAssets
 fun AssetList(navController: NavController) {
     val context = LocalContext.current
     val assets = remember { loadAssets(context) }
+//    var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
+//    var coinNames = coinNameList.products.collectAsState()
+//    Text(text = coinNameList.products.value.toString())
 
     LazyColumn {
         items(assets) { asset ->

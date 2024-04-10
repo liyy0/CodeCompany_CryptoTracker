@@ -6,33 +6,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.CurrencyExchange
-import androidx.compose.material.icons.filled.Feed
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Newspaper
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.CurrencyExchange
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Newspaper
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,17 +34,13 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
-import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
-import com.example.codecompany_cryptotracker.network.ApiInterface
-import com.example.codecompany_cryptotracker.network.CoinRepos
-import com.example.codecompany_cryptotracker.network.CoinReposImp
 
 import com.example.codecompany_cryptotracker.ui.theme.CodeCompany_CryptoTrackerTheme
 import com.example.codecompany_cryptotracker.util.loadAssets
 import com.example.codecompany_cryptotracker.common.Navigation
+import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
+import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
+import com.example.codecompany_cryptotracker.network.CoinReposImp
 
 data class BottomNavigationItem(
     val title: String,
@@ -72,7 +57,7 @@ class MainActivity : ComponentActivity() {
         var coinNamePrice = MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), "bitcoin")
         Log.d("debug - Price", coinNamePrice.products.value.prices.size.toString())
         setContent {
-            val assets = loadAssets(context = applicationContext)
+
 
             CodeCompany_CryptoTrackerTheme {
                 BottomNavigation()
