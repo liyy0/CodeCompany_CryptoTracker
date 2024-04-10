@@ -1,8 +1,12 @@
 package com.example.codecompany_cryptotracker
 
 sealed class Screen (val route: String) {
-    object AssetList: Screen("AssetList")
-    object AssetDetail: Screen("AssetDetail")
+    data object AssetList: Screen("AssetList")
+    data object AssetDetail: Screen("AssetDetail")
+    data object NewsList: Screen("NewsList")
+    data object NewsDetail: Screen("NewsDetail")
+    data object Settings: Screen("Settings")
+
 
     fun withArgs(vararg args: String): String {
         return buildString {

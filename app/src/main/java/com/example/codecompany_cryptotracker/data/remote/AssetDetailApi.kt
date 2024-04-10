@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface MetaApi {
+interface AssetDetailApi {
     @GET("assets/icons/{size}")
     suspend fun getMeta(
         @Header("Accept") accept: String,
