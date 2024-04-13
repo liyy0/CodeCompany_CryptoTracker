@@ -15,10 +15,13 @@ class CoinReposImp(
         const val API_KEY = "CG-3LG1Vd4vgC9BPpNjDAdYXLNb"
     }
 
-        override suspend fun getAllCoinList(): Flow<Result<List<CoinNameItem>>> {
+        override suspend fun getAllCoinList(
+            currency: String,
+            locale: String
+        ): Flow<Result<List<CoinNameItem>>> {
             return flow {
                 val productsFromApi = try {
-                    api.getAllCoinName(API_KEY)
+                    api.getAllCoinName(API_KEY, currency, locale)
                 } catch (e: IOException) {
                     e.printStackTrace()
                     emit(Result.Error(message = "Error loading products"))
@@ -32,10 +35,8 @@ class CoinReposImp(
                     emit(Result.Error(message = "Error loading products"))
                     return@flow
                 }
-
                 emit(Result.Success(productsFromApi))
             }
-
         }
 
     override suspend fun getMarkectChartData(
@@ -60,7 +61,6 @@ class CoinReposImp(
                 emit(Result.Error(message = "Error loading products"))
                 return@flow
             }
-
             emit(Result.Success(productsFromApi))
         }
     }

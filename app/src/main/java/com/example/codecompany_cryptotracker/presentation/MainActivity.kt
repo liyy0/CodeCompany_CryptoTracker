@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -32,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
 
 
@@ -41,6 +43,7 @@ import com.example.codecompany_cryptotracker.common.Navigation
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
+import kotlinx.coroutines.flow.collect
 
 data class BottomNavigationItem(
     val title: String,
@@ -52,30 +55,24 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
-        Log.d("debug - List", coinNameList.products.value.size.toString())
-        var coinNamePrice = MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), "bitcoin")
-        Log.d("debug - Price", coinNamePrice.products.value.prices.size.toString())
+
+//
+//        var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
+//        var coinNamePrice = MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), "bitcoin")
         setContent {
-
-
-            CodeCompany_CryptoTrackerTheme {
+//            CodeCompany_CryptoTrackerTheme {
+//                Text(text = "Hello World")
+//                var str = coinNamePrice.products.collectAsState().value.toString()
+//                Text(text = str)
                 BottomNavigation()
             }
-
-
-
-
-
         }
-
-
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation(){
+fun BottomNavigation( ){
     val navController = rememberNavController()
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
@@ -108,24 +105,6 @@ fun BottomNavigation(){
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text("Crypto Tracker") },
-//                navigationIcon = {
-//                    IconButton(onClick = { /*TODO*/ }) {
-//                        Icon(
-//                            imageVector = Icons.Default.ArrowBackIosNew,
-//                            contentDescription = "Go back"
-//                        )
-//                    }
-//                },
-//                actions = {
-//                    // Add action icons here
-//                    IconButton(onClick = { /*TODO*/ }) {
-//                        Icon(
-//                            imageVector = Icons.Default.Search,
-//                            contentDescription = "Search"
-//                        )
-//                    }
-//
-//                }
             )
         },
         bottomBar = {
@@ -171,7 +150,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     CodeCompany_CryptoTrackerTheme {
-        BottomNavigation()
+//        BottomNavigation()
     }
 }
 
