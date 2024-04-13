@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
+import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 
 import com.example.codecompany_cryptotracker.domain.Asset
@@ -45,31 +46,27 @@ import com.example.codecompany_cryptotracker.util.loadAssets
 
 @Composable
 fun AssetList(navController: NavController) {
-    val context = LocalContext.current
-    val assets = remember { loadAssets(context) }
-//    var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
-//    var coinNames = coinNameList.products.collectAsState()
-//    Text(text = coinNameList.products.value.toString())
-
-    LazyColumn {
-        items(assets) { asset ->
-            if (asset.type_is_crypto == 1){
-                AssetItem(asset,
-                    onItemClick = {
-                        Log.d("AssetList", "Asset clicked: ${asset.asset_id}")
-                        navController.navigate("AssetDetail/${asset.asset_id}")
-                    })
-            }
-
-        }
-    }
+//    val context = LocalContext.current
+//    val assets = remember { loadAssets(context) }
+    var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
+    var coinNames = coinNameList.products.collectAsState().value
+    Text(text = coinNames.toString())
+//    LazyColumn {
+//        items(coinNames) { asset ->
+//            AssetItem(asset,
+//                onItemClick = {
+////                        Log.d("AssetList", "Asset clicked: ${asset.asset_id}")
+////                        navController.navigate("AssetDetail/${asset.asset_id}")
+//                })
+//        }
+//    }
 }
 
 
 
 @Composable
 fun AssetItem(
-              asset: Asset,
+              asset: CoinNameItem,
               onItemClick: () -> Unit,
               modifier: Modifier = Modifier) {
     Card(
@@ -89,8 +86,8 @@ fun AssetItem(
         ) {
             // AsyncImage for loading and displaying an image from a URL
             AsyncImage(
-                model = asset.icon_url,
-                contentDescription = asset.asset_id?.lowercase(),
+                model = asset.image,
+                contentDescription = asset.id?.lowercase(),
                 modifier = Modifier
                     .size(50.dp) // Makes the image a fixed size, ensuring uniformity
                     .clip(RoundedCornerShape(50)), // Clips the image to be circular
@@ -98,7 +95,7 @@ fun AssetItem(
             )
             Spacer(modifier = Modifier.width(16.dp))
             // Text displaying the asset ID
-            asset.asset_id?.let {
+            asset.id?.let {
                 Text(
                     text = it.uppercase(),
                     modifier = Modifier.padding(start = 8.dp),
