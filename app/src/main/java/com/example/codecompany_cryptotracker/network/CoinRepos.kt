@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Query
 
 interface CoinRepos {
-        suspend fun getAllCoinList(): Flow<Result<List<CoinNameItem>>>
+        suspend fun getAllCoinList(curreny: String, locale: String): Flow<Result<List<CoinNameItem>>>
 
         suspend fun getMarkectChartData(id: String,currency: String, days: Int, interval: String):Flow<Result<MarketChartDataModel>>
     }

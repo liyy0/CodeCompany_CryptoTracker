@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.codecompany_cryptotracker.network.CoinRepos
 import com.example.codecompany_cryptotracker.network.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MarketChartDataViewModel
     (private val coinRepos: CoinRepos, private val id: String): ViewModel() {
@@ -29,7 +31,8 @@ class MarketChartDataViewModel
 
     init {
         viewModelScope.launch {
-            coinRepos.getMarkectChartData(id, "usd", 30, "daily" ).collectLatest { result ->
+            withContext(Dispatchers.IO) {
+            coinRepos.getMarkectChartData(id, "usd", 90, "daily" ).collectLatest { result ->
                 when(result) {
                     is Result.Error -> {
                         Log.d("ViewModel", "Error")
@@ -44,6 +47,6 @@ class MarketChartDataViewModel
                     }
                 }
             }
-        }
+        }}
     }
 }

@@ -10,9 +10,11 @@ import retrofit2.http.Query
 interface ApiInterface {
 
     //List all coin with id name and symbol
-    @GET("coins/list")
+    @GET("coins/markets")
     suspend fun getAllCoinName(
-        @Query("x_cg_demo_api_key")apiKey:String
+        @Query("x_cg_demo_api_key")apiKey:String,
+        @Query("vs_currency") currency: String,
+        @Query("locale") local: String
     ): CoinName
 
     @GET("coins/{id}/market_chart")
