@@ -1,15 +1,9 @@
 package com.example.codecompany_cryptotracker.presentation
 
-import android.util.Log
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,7 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,43 +23,39 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.toLowerCase
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.compose.rememberImagePainter
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 
-import com.example.codecompany_cryptotracker.domain.Asset
-import com.example.codecompany_cryptotracker.network.CoinReposImp
-import com.example.codecompany_cryptotracker.ui.theme.CodeCompany_CryptoTrackerTheme
 import com.example.codecompany_cryptotracker.util.loadAssets
 
 @Composable
-fun AssetList(navController: NavController) {
-//    val context = LocalContext.current
-//    val assets = remember { loadAssets(context) }
-    var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
-    var coinNames = coinNameList.products.collectAsState().value
-    Text(text = coinNames.toString())
-//    LazyColumn {
-//        items(coinNames) { asset ->
-//            AssetItem(asset,
-//                onItemClick = {
-////                        Log.d("AssetList", "Asset clicked: ${asset.asset_id}")
-////                        navController.navigate("AssetDetail/${asset.asset_id}")
-//                })
-//        }
-//    }
-}
+fun AssetList(navController: NavController, coinNames: CoinNameViewModel) {
+    val context = LocalContext.current
+    val assets = remember { loadAssets(context) }
+//    var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
+    var coinNamesList = coinNames.products.collectAsState().value
+
+    LazyColumn {
+        items(coinNamesList) { asset ->
+                AssetItem(asset,
+                    onItemClick = {
+//                        Log.d("AssetList", "Asset clicked: ${asset.asset_id}")
+                        navController.navigate("AssetDetail/${asset.id}")
+                    })
+            }
+
+        }
+    }
+
 
 
 
 @Composable
 fun AssetItem(
-              asset: CoinNameItem,
+              coin: CoinNameItem,
               onItemClick: () -> Unit,
               modifier: Modifier = Modifier) {
     Card(
@@ -86,8 +75,8 @@ fun AssetItem(
         ) {
             // AsyncImage for loading and displaying an image from a URL
             AsyncImage(
-                model = asset.image,
-                contentDescription = asset.id?.lowercase(),
+                model = coin.image,
+                contentDescription = coin.id?.lowercase(),
                 modifier = Modifier
                     .size(50.dp) // Makes the image a fixed size, ensuring uniformity
                     .clip(RoundedCornerShape(50)), // Clips the image to be circular
@@ -95,7 +84,7 @@ fun AssetItem(
             )
             Spacer(modifier = Modifier.width(16.dp))
             // Text displaying the asset ID
-            asset.id?.let {
+            coin.id?.let {
                 Text(
                     text = it.uppercase(),
                     modifier = Modifier.padding(start = 8.dp),

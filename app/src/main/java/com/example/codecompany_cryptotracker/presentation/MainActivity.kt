@@ -40,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.codecompany_cryptotracker.ui.theme.CodeCompany_CryptoTrackerTheme
 import com.example.codecompany_cryptotracker.util.loadAssets
 import com.example.codecompany_cryptotracker.common.Navigation
+import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
@@ -57,22 +58,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
 //
-//        var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
+        var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
 //        var coinNamePrice = MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), "bitcoin")
         setContent {
 //            CodeCompany_CryptoTrackerTheme {
 //                Text(text = "Hello World")
 //                var str = coinNamePrice.products.collectAsState().value.toString()
 //                Text(text = str)
-                BottomNavigation()
+                BottomNavigation(coinNameList)
             }
         }
     }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation( ){
+fun BottomNavigation(coinNames:CoinNameViewModel ){
     val navController = rememberNavController()
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
@@ -131,7 +131,7 @@ fun BottomNavigation( ){
         }
     ){paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            Navigation(navController)
+            Navigation(navController, coinNames)
         }
     }
 }

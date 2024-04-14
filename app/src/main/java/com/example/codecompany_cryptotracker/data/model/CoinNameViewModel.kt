@@ -46,7 +46,7 @@ class CoinNameViewModel (
 
         init {
             viewModelScope.launch {
-                withContext(Dispatchers.IO) {
+                    Log.d("ViewModel", "Init Coin Name View Model")
                 coinRepos.getAllCoinList("usd", "en").collectLatest { result ->
                     when(result) {
                         is Result.Error -> {
@@ -61,7 +61,7 @@ class CoinNameViewModel (
                             Log.d("ViewModel", products.value.toString())
                         }
                     }
-                }}
+                }
             }
         }
     }
