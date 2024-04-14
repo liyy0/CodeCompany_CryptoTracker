@@ -32,6 +32,7 @@ class MarketChartDataViewModel
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
+                Log.d("ViewModel", "Detail Data Init")
             coinRepos.getMarkectChartData(id, "usd", 90, "daily" ).collectLatest { result ->
                 when(result) {
                     is Result.Error -> {
