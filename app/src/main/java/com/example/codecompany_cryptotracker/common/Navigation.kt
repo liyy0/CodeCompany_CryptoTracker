@@ -18,13 +18,13 @@ import com.example.codecompany_cryptotracker.presentation.SettingScreen
 
 
 @Composable
-fun Navigation(navController: NavHostController, coinNames: CoinNameViewModel) {
+fun Navigation(navController: NavHostController) {
 //    val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.AssetList.route) {
 
         composable(route = Screen.AssetList.route
         ) {
-            AssetList(navController = navController, coinNames)
+            AssetList(navController = navController)
         }
         composable(
             route = Screen.AssetDetail.route + "/{assetId}",

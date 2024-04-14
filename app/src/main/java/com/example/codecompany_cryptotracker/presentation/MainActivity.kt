@@ -58,21 +58,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
 //
-        var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
+//        var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
 //        var coinNamePrice = MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), "bitcoin")
         setContent {
 //            CodeCompany_CryptoTrackerTheme {
 //                Text(text = "Hello World")
 //                var str = coinNamePrice.products.collectAsState().value.toString()
 //                Text(text = str)
-                BottomNavigation(coinNameList)
+                BottomNavigation()
             }
         }
     }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation(coinNames:CoinNameViewModel ){
+fun BottomNavigation(){
     val navController = rememberNavController()
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
@@ -131,7 +131,7 @@ fun BottomNavigation(coinNames:CoinNameViewModel ){
         }
     ){paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            Navigation(navController, coinNames)
+            Navigation(navController)
         }
     }
 }
