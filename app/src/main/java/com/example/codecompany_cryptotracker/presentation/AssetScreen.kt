@@ -1,6 +1,7 @@
 package com.example.codecompany_cryptotracker.presentation
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,48 +57,62 @@ fun AssetList(navController: NavController) {
         }
     }
 
-
-
-
 @Composable
 fun AssetItem(
-              coin: CoinNameItem,
-              onItemClick: () -> Unit,
-              modifier: Modifier = Modifier) {
+    coin: CoinNameItem,
+    onItemClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = modifier
             .padding(8.dp)
             .fillMaxWidth()
             .clickable { onItemClick() },
-        shape = RoundedCornerShape(8.dp), // Adds rounded corners to the Card
-        elevation =  CardDefaults.cardElevation(),
-
+        shape = RoundedCornerShape(8.dp),
+        elevation = CardDefaults.cardElevation(),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically // Aligns items vertically in the center
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // AsyncImage for loading and displaying an image from a URL
             AsyncImage(
                 model = coin.image,
-                contentDescription = coin.id?.lowercase(),
+                contentDescription = coin.name,
                 modifier = Modifier
-                    .size(50.dp) // Makes the image a fixed size, ensuring uniformity
-                    .clip(RoundedCornerShape(50)), // Clips the image to be circular
-                contentScale = ContentScale.Crop // Crops the image to fit the modifier bounds
+                    .size(50.dp)
+                    .clip(RoundedCornerShape(50)),
+                contentScale = ContentScale.Crop,
             )
             Spacer(modifier = Modifier.width(16.dp))
-            // Text displaying the asset ID
-            coin.id?.let {
+            Column {
                 Text(
-                    text = it.uppercase(),
-                    modifier = Modifier.padding(start = 8.dp),
-                    color = Color.Black, // Sets the text color
-                    style = MaterialTheme.typography.displayLarge // Uses Material Theme typography
+                    text = coin.name,
+                    style = MaterialTheme.typography.titleLarge, // Using titleLarge
+                    color = Color.Black,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Price: $${coin.currentPrice}",
+                    style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
+                    color = Color.Black.copy(alpha = 0.8f),
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Market Cap: $${coin.marketCap}",
+                    style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
+                    color = Color.Black.copy(alpha = 0.8f),
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Price Change (24h): ${coin.priceChangePercentage24h}%",
+                    style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
+                    color = if (coin.priceChangePercentage24h >= 0) Color.Green else Color.Red,
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
         }
     }
 }
+
