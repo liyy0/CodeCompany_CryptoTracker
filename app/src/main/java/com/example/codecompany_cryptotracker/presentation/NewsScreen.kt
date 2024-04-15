@@ -27,15 +27,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
+import java.net.URLEncoder
 
 @RequiresApi(Build.VERSION_CODES.O)
-@Preview
 @Composable
-fun NewsList() {
+fun NewsList(navController: NavController) {
 
     var newsViewModel = remember{
             CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), "cryptocurrency")
@@ -51,8 +52,7 @@ fun NewsList() {
                     .padding(8.dp)
                     .clickable {
                         // Use the launcher to open the news URL in a browser
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(article.url))
-                        openUrlLauncher.launch(intent)
+                        navController.navigate("webView/${URLEncoder.encode(article.url, "UTF-8")}")
                     }
             ) {
                 Column {

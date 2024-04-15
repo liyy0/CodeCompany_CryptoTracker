@@ -15,6 +15,7 @@ import com.example.codecompany_cryptotracker.presentation.AssetList
 import com.example.codecompany_cryptotracker.presentation.NewsList
 import com.example.codecompany_cryptotracker.presentation.RetrofitInstance
 import com.example.codecompany_cryptotracker.presentation.SettingScreen
+import com.example.codecompany_cryptotracker.presentation.WebViewScreen
 
 
 @Composable
@@ -41,7 +42,11 @@ fun Navigation(navController: NavHostController) {
 
         composable(route = Screen.NewsList.route
         ) {
-            NewsList()
+            NewsList(navController = navController)
+        }
+
+        composable("webView/{url}", arguments = listOf(navArgument("url") { type = NavType.StringType })) { backStackEntry ->
+            WebViewScreen(url = backStackEntry.arguments?.getString("url") ?: "")
         }
 
         composable(route = Screen.Settings.route
