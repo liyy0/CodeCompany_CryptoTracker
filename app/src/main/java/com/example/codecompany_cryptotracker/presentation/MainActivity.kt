@@ -101,7 +101,7 @@ fun BottomNavigation(){
             route = "NewsList"
         ),
         BottomNavigationItem(
-            title = "Profile",
+            title = "Settings",
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
             route = "Settings"
