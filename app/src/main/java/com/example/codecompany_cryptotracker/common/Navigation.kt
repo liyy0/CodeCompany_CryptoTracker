@@ -37,7 +37,7 @@ fun Navigation(navController: NavHostController) {
             )
         ) { backStackEntry ->
             val assetId = backStackEntry.arguments?.getString("assetId")
-            AssetDetail(assetId = assetId)
+            AssetDetail(navController = navController,assetId = assetId)
         }
 
         composable(route = Screen.NewsList.route

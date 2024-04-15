@@ -102,11 +102,7 @@ fun BottomNavigation(){
         modifier = Modifier
             .fillMaxSize()
             .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Crypto Tracker") },
-            )
-        },
+
         bottomBar = {
             NavigationBar{
                 items.forEachIndexed{ index, item ->

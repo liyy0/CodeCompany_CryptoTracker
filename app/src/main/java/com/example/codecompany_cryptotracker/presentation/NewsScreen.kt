@@ -42,7 +42,6 @@ fun NewsList(navController: NavController) {
             CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), "cryptocurrency")
     }
     var coinNews = newsViewModel.products.collectAsState().value.articles
-    val openUrlLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) { }
 
     LazyColumn {
         items(coinNews.size) { index ->
