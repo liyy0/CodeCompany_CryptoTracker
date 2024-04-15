@@ -34,7 +34,7 @@ interface ApiInterface {
         @Query("from") from: String,
         @Query("to") to: String,
         @Query("language") language: String = "en",
-        @Query("pageSize") pageSize: Int = 10,
+        @Query("pageSize") pageSize: Int = 20,
         @Query("page") page: Int = 1,
         @Query("sortBy") sortBy: String = "popularity",
     ): CoinNews

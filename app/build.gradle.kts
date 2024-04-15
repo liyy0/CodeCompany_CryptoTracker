@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.codecompany_cryptotracker"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -90,6 +90,8 @@ dependencies {
     // Navigation
     val nav_version = "2.7.7"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+    implementation ("co.yml:ycharts:2.1.0")
 
 
 }
