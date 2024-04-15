@@ -92,7 +92,7 @@ fun AssetItem(
                 model = asset.icon_url,
                 contentDescription = asset.asset_id?.lowercase(),
                 modifier = Modifier
-                    .size(50.dp) // Makes the image a fixed size, ensuring uniformity
+                    .size(30.dp) // Makes the image a fixed size, ensuring uniformity
                     .clip(RoundedCornerShape(50)), // Clips the image to be circular
                 contentScale = ContentScale.Crop // Crops the image to fit the modifier bounds
             )
@@ -103,9 +103,18 @@ fun AssetItem(
                     text = it.uppercase(),
                     modifier = Modifier.padding(start = 8.dp),
                     color = Color.Black, // Sets the text color
-                    style = MaterialTheme.typography.displayLarge // Uses Material Theme typography
+                    style = MaterialTheme.typography.displaySmall // Uses Material Theme typography
                 )
             }
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun showAssetItemPreview() {
+    CodeCompany_CryptoTrackerTheme {
+       AssetList(navController = NavController(LocalContext.current))
     }
 }
