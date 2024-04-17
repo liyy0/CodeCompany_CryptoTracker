@@ -30,6 +30,7 @@ import coil.compose.AsyncImage
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
+import com.example.codecompany_cryptotracker.network.RetrofitInstance
 
 import com.example.codecompany_cryptotracker.util.loadAssets
 

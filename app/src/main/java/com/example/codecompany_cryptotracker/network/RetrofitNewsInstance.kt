@@ -1,6 +1,5 @@
-package com.example.codecompany_cryptotracker.presentation
+package com.example.codecompany_cryptotracker.network
 
-import com.example.codecompany_cryptotracker.network.ApiInterface
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

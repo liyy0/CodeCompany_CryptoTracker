@@ -7,13 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.codecompany_cryptotracker.Screen
-import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
-import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
-import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.presentation.AssetDetail
 import com.example.codecompany_cryptotracker.presentation.AssetList
 import com.example.codecompany_cryptotracker.presentation.NewsList
-import com.example.codecompany_cryptotracker.presentation.RetrofitInstance
 import com.example.codecompany_cryptotracker.presentation.SettingScreen
 import com.example.codecompany_cryptotracker.presentation.WebViewScreen
 
