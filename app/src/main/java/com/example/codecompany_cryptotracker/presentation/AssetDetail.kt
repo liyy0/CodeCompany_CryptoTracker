@@ -141,6 +141,9 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         ) {
             LazyColumn {
                 item{
+                    DetailInfo(assetId)
+                }
+                item{
                     Text(
                         text = "Charts",
                         style = MaterialTheme.typography.titleLarge,
@@ -167,6 +170,16 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         }
     }
 
+}
+
+@Composable
+fun DetailInfo(assetId: String?){
+    Text(
+        text = "Place Holder for ${assetId}",
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier.padding(bottom = 8.dp)
+    )
 }
 @Composable
 fun LazyRowForNews(navController: NavController, news: List<Article>) {

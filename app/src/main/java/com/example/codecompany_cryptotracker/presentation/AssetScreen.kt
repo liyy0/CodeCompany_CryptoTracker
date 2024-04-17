@@ -36,10 +36,6 @@ import com.example.codecompany_cryptotracker.util.loadAssets
 
 @Composable
 fun AssetList(navController: NavController) {
-    val context = LocalContext.current
-    val assets = remember { loadAssets(context) }
-//    var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
-//    var coinNamesList1 = coinNames.products.collectAsState().value
 
     var tempviewModel = remember {
         CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
@@ -52,6 +48,7 @@ fun AssetList(navController: NavController) {
                     onItemClick = {
 //                        Log.d("AssetList", "Asset clicked: ${asset.asset_id}")
                         navController.navigate("AssetDetail/${asset.id}")
+
                     })
             }
 
