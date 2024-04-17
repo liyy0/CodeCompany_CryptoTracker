@@ -14,9 +14,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,10 +35,12 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import co.yml.charts.axis.AxisData
 import co.yml.charts.common.extensions.formatToSinglePrecision
 import co.yml.charts.common.model.Point
@@ -51,6 +57,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.codecompany_cryptotracker.data.model.Article
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
+import com.example.codecompany_cryptotracker.data.model.MarketChartDataModel
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
@@ -81,8 +88,6 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     var coinPrice = PriceviewModel.products.collectAsState().value
     var coinNews = newsViewModel.products.collectAsState().value.articles
 
-//    Text(text = "Asset Detail: $assetId")
-//    Text(text = coinNews.toString())
 
     val pricesTransformed = coinPrice.prices.mapIndexed { index, array ->
         arrayOf(index + 1, array[1])
@@ -115,7 +120,17 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Crypto Dashboard", color = Color(0xFFCCC2DC)) },
+                title = {
+                    Text(
+                        text = assetId ?: "Unknown",
+                        modifier = Modifier.fillMaxWidth() // Making sure the text takes full width
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                }
             )
         }
     ) { padding ->
@@ -125,6 +140,14 @@ fun AssetDetail(navController: NavController,assetId: String?) {
                 .padding(16.dp)
         ) {
             LazyColumn {
+                item{
+                    Text(
+                        text = "Charts",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
                 item {
                     Chart(pricesPoints, dateData, "Price Chart")
                 }
@@ -144,11 +167,7 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         }
     }
 
-
-
-
 }
-
 @Composable
 fun LazyRowForNews(navController: NavController, news: List<Article>) {
     Column(modifier = Modifier.padding(vertical = 12.dp)) {
@@ -355,4 +374,12 @@ fun graphpreview(){
     DottedLinechart(points, dateData)
 
 
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewAssetDetail() {
+//    DeveloperSection()
+    var navController = rememberNavController()
+    AssetDetail(navController = navController,assetId = "BitCoin")
 }
