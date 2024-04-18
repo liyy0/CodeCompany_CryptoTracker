@@ -11,7 +11,7 @@ data class CoinNameItem(
     @SerializedName("market_cap") val marketCap: Long,
     @SerializedName("market_cap_rank") val marketCapRank: Int,
     @SerializedName("fully_diluted_valuation") val fullyDilutedValuation: Long?,
-    @SerializedName("total_volume") val totalVolume: Long,
+    @SerializedName("total_volume") val totalVolume: Double,
     @SerializedName("high_24h") val high24h: Double,
     @SerializedName("low_24h") val low24h: Double,
     @SerializedName("price_change_24h") val priceChange24h: Double,
