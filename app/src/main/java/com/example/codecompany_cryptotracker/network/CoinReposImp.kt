@@ -1,8 +1,10 @@
 package com.example.codecompany_cryptotracker.network
 
+import com.example.codecompany_cryptotracker.data.model.CoinData
 import com.example.codecompany_cryptotracker.data.model.CoinName
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNews
+import com.example.codecompany_cryptotracker.data.model.CoinTickerData
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -26,20 +28,73 @@ class CoinReposImp(
                     api.getAllCoinName(API_KEY, currency, locale)
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    emit(Result.Error(message = "Error loading products"))
+                    emit(Result.Error(message = e.stackTraceToString()))
                     return@flow
                 } catch (e: HttpException) {
                     e.printStackTrace()
-                    emit(Result.Error(message = "Error loading products"))
+                    emit(Result.Error(message = e.stackTraceToString()))
                     return@flow
                 }  catch (e: Exception) {
                     e.printStackTrace()
-                    emit(Result.Error(message = "Error loading products"))
+                    emit(Result.Error(message = e.stackTraceToString()))
                     return@flow
                 }
                 emit(Result.Success(productsFromApi))
             }
         }
+
+    override suspend fun getCoinDataById(
+        id: String,
+        communityData: Boolean,
+        developerData: Boolean
+    ): Flow<Result<CoinData>> {
+        return flow {
+            val productsFromApi = try {
+                api.getCoinDataById(id, API_KEY, communityData, developerData)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Result.Error(message = "Error loading products"))
+                return@flow
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Result.Error(message = "Error loading products"))
+                return@flow
+            }  catch (e: Exception) {
+                e.printStackTrace()
+                emit(Result.Error(message = "Error loading products"))
+                return@flow
+            }
+            emit(Result.Success(productsFromApi))
+        }
+    }
+
+    override suspend fun getCoinTickerDataById(
+        id: String,
+        exchangeIds: String?,
+        includeExchangeLogo: Boolean,
+        page: Int?,
+        order: String?,
+        depth: Boolean
+    ): Flow<Result<CoinTickerData>> {
+        return flow {
+            val productsFromApi = try {
+                api.getTickersById(id, API_KEY,exchangeIds, includeExchangeLogo, page, order, depth)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                emit(Result.Error(message = "Error loading products"))
+                return@flow
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                emit(Result.Error(message = "Error loading products"))
+                return@flow
+            }  catch (e: Exception) {
+                e.printStackTrace()
+                emit(Result.Error(message = "Error loading products"))
+                return@flow
+            }
+            emit(Result.Success(productsFromApi))
+        }
+    }
 
     override suspend fun getMarkectChartData(
         id: String,

@@ -40,7 +40,7 @@ class MarketChartDataViewModel
                         _showErrorToastChannel.send(true)
                     }
                     is Result.Success -> {
-                        Log.d("ViewModel", "Success")
+                        Log.d("ViewModel", "Success MarketData")
                         result.data?.let { products ->
                             _products.update { products }
                         }
