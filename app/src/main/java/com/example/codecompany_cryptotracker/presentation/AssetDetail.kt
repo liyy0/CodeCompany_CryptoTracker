@@ -56,7 +56,9 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.codecompany_cryptotracker.data.model.Article
+import com.example.codecompany_cryptotracker.data.model.CoinDataViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
+import com.example.codecompany_cryptotracker.data.model.CoinTickerViewModel
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataModel
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
@@ -79,6 +81,20 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         else{MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), "BitCoin")}
     }
 
+    var CoinDataViewModel = remember{
+        if (assetId != null) {
+            CoinDataViewModel(CoinReposImp(RetrofitInstance.api), assetId)
+        }
+        else{CoinDataViewModel(CoinReposImp(RetrofitInstance.api), "BitCoin")}
+    }
+
+    var CoinTickerViewModel = remember{
+        if (assetId != null) {
+            CoinTickerViewModel(CoinReposImp(RetrofitInstance.api), assetId)
+        }
+        else{CoinTickerViewModel(CoinReposImp(RetrofitInstance.api), "BitCoin")}
+    }
+
     var newsViewModel = remember{
         if (assetId != null) {
             CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), assetId)
@@ -87,6 +103,8 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     }
     var coinPrice = PriceviewModel.products.collectAsState().value
     var coinNews = newsViewModel.products.collectAsState().value.articles
+    var coinData = CoinDataViewModel.products.collectAsState().value
+    var coinTicker = CoinTickerViewModel.products.collectAsState().value
 
 
     val pricesTransformed = coinPrice.prices.mapIndexed { index, array ->

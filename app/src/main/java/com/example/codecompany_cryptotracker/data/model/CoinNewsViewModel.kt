@@ -58,7 +58,7 @@ class CoinNewsViewModel
                             _showErrorToastChannel.send(true)
                         }
                         is Result.Success -> {
-                            Log.d("ViewModel", "Success")
+                            Log.d("ViewModel", "Success Coin News")
                             result.data?.let { products ->
                                 _products.update { products }
                             }
