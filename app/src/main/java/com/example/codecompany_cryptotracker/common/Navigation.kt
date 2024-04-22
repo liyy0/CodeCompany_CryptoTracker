@@ -12,6 +12,7 @@ import com.example.codecompany_cryptotracker.presentation.AssetList
 import com.example.codecompany_cryptotracker.presentation.NewsList
 import com.example.codecompany_cryptotracker.presentation.SettingScreen
 import com.example.codecompany_cryptotracker.presentation.WebViewScreen
+import com.example.codecompany_cryptotracker.presentation.Favorite
 
 
 @Composable
@@ -48,6 +49,10 @@ fun Navigation(navController: NavHostController) {
         composable(route = Screen.Settings.route
         ) {
             SettingScreen()
+        }
+
+        composable(route=Screen.Favorite.route){
+            Favorite(navController = navController)
         }
 
 

@@ -7,6 +7,8 @@ sealed class Screen (val route: String) {
     data object NewsDetail: Screen("NewsDetail")
     data object Settings: Screen("Settings")
 
+    data object Favorite: Screen ("Favorite")
+
 
     fun withArgs(vararg args: String): String {
         return buildString {
