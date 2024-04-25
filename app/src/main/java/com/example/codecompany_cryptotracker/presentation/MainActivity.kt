@@ -93,17 +93,18 @@ fun BottomNavigation(){
             route = "NewsList"
         ),
         BottomNavigationItem(
-            title = "Settings",
-            selectedIcon = Icons.Filled.Settings,
-            unselectedIcon = Icons.Outlined.Settings,
-            route = "Settings"
-        ),
-        BottomNavigationItem(
             title = "Favorite",
             selectedIcon = Icons.Filled.Star,
             unselectedIcon = Icons.Outlined.Star,
             route = "Favorite"
         ),
+        BottomNavigationItem(
+            title = "Settings",
+            selectedIcon = Icons.Filled.Settings,
+            unselectedIcon = Icons.Outlined.Settings,
+            route = "Settings"
+        ),
+
     )
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold (
@@ -154,7 +155,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     CodeCompany_CryptoTrackerTheme {
-//        BottomNavigation()
+        BottomNavigation()
     }
 }
 
