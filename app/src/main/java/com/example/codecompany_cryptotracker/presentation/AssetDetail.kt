@@ -26,8 +26,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -35,14 +39,12 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import co.yml.charts.axis.AxisData
-import co.yml.charts.common.extensions.formatToSinglePrecision
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.linechart.LineChart
 import co.yml.charts.ui.linechart.model.Line
@@ -59,7 +61,6 @@ import com.example.codecompany_cryptotracker.data.model.Article
 import com.example.codecompany_cryptotracker.data.model.CoinDataViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinTickerViewModel
-import com.example.codecompany_cryptotracker.data.model.MarketChartDataModel
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
@@ -67,6 +68,7 @@ import com.example.codecompany_cryptotracker.network.RetrofitNewsInstance
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.Date
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -107,31 +109,28 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     var coinTicker = CoinTickerViewModel.products.collectAsState().value
 
 
-    val pricesTransformed = coinPrice.prices.mapIndexed { index, array ->
-        arrayOf(index + 1, array[1])
-    }
-    val pricesPoints = pricesTransformed.map {
-        Point(it[0].toFloat(), it[1].toFloat())
+//    val pricesTransformed = coinPrice.prices.mapIndexed { index, array ->
+//        arrayOf(index, array[1])
+//    }
+
+    val pricesTransformed = coinPrice.prices.map {
+        it[1]
     }
 
-    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+    val sdf = SimpleDateFormat("yyyy-MM-dd")
     val dateData = coinPrice.prices.map{
         sdf.format(Date(it[0].toLong()))
     }
 
 
-    val market_capsTransformed = coinPrice.market_caps.mapIndexed { index, array ->
-        arrayOf(index + 1, array[1])
-    }
-    val market_capsPoints = market_capsTransformed.map {
-        Point(it[0].toFloat(), it[1].toFloat())
+
+    val total_volumesTransformed = coinPrice.prices.map {
+        it[1]
     }
 
-    val total_volumesTransformed = coinPrice.total_volumes.mapIndexed { index, array ->
-        arrayOf(index + 1, array[1])
-    }
-    val total_volumespPints = total_volumesTransformed.map {
-        Point(it[0].toFloat(), it[1].toFloat())
+    var daterange = remember {
+        mutableStateOf(60)
     }
 
 
@@ -157,6 +156,7 @@ fun AssetDetail(navController: NavController,assetId: String?) {
                 .padding(padding)
                 .padding(16.dp)
         ) {
+//            Text(text = pricesPoints.size.toString())
             LazyColumn {
                 item{
                     DetailInfo(assetId)
@@ -169,14 +169,12 @@ fun AssetDetail(navController: NavController,assetId: String?) {
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
+                item {  }
                 item {
-                    Chart(pricesPoints, dateData, "Price Chart")
+                    Chart(pricesTransformed, dateData,daterange,"Price Chart","The current value of that cryptocurrency in terms of another currency. It represents the rate at which one unit of the cryptocurrency can be exchanged for another currency at a given moment in time.")
                 }
                 item {
-                    Chart(market_capsPoints, dateData, "Market Cap Chart")
-                }
-                item {
-                    Chart(total_volumespPints, dateData, "Total Volume Chart")
+                    Chart(total_volumesTransformed, dateData,daterange,"Total Volume Chart","The overall amount of trading activity, showing how much of the cryptocurrency has been bought and sold within a specific time frame.")
                 }
                 item {
                     LazyRowForNews(navController = navController, coinNews)
@@ -189,6 +187,8 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     }
 
 }
+
+
 
 @Composable
 fun DetailInfo(assetId: String?){
@@ -265,36 +265,92 @@ fun NewsCard(navController: NavController, article: Article) {
         }
     }
 }
+fun simplifyValue(value: Float): String {
+    return when {
+        value >= 1e12 -> String.format("%.2fT", value / 1e12)
+        value >= 1e9 -> String.format("%.2fB", value / 1e9)
+        value >= 1000000 -> String.format("%.1fM", value / 1000000)
+        value >= 1000 -> String.format("%.1fK", value / 1000)
+        value >= 1 -> String.format("%.2f", value)
+        value >= 0.001 -> String.format("%.2f", value)
+        value >= 0.000001 -> String.format("%.2fu", value * 1000000)
+        else -> String.format("%.2fn", value * 1000000000)
+    }
+}
+fun formatNumberWithCommas(number: Float): String {
+    val numberString = number.toString()
+    val parts = numberString.split(".")
+    val integerPart = parts[0]
+    val fractionalPart = if (parts.size > 1) "." + parts[1] else ""
 
+    val reversedIntegerPart = integerPart.reversed()
+    val formattedString = StringBuilder()
 
+    for (i in reversedIntegerPart.indices) {
+        formattedString.append(reversedIntegerPart[i])
+        if ((i + 1) % 3 == 0 && (i + 1) != reversedIntegerPart.length) {
+            formattedString.append(',')
+        }
+    }
+    return formattedString.reverse().toString() + fractionalPart
+}
 @Composable
-fun Chart(points: List<Point>, dateData: List<String>,discription: String){
-    if (points.isEmpty()){
+fun Chart(
+    values: List<Double>,
+    dateData: List<String>,
+    daterange: MutableState<Int>,
+    title: String,
+    description: String){
+    var input_points:List<Point> = emptyList()
+    var input_dateData:List<String> = emptyList()
+    if (values.isEmpty()){
         Text("No data available")
     }else{
-            Text(
-                modifier=Modifier.padding(12.dp),
-                text = discription,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-            DottedLinechart(points, dateData)
-            Spacer(modifier = Modifier.height(12.dp))
-            Divider(modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp))
+        if (daterange.value == 30 && values.size >= 30 && dateData.size >= 30){
+            input_points = values.subList(values.size-30,values.size).mapIndexed { index, value ->
+                Point(index.toFloat(), value.toFloat())
+            }
+            input_dateData = dateData.subList(dateData.size-30,dateData.size)
+        }else if (daterange.value == 60 && values.size >= 60 && dateData.size >= 60){
+            input_points = values.subList(values.size-60,values.size).mapIndexed { index, value ->
+                Point(index.toFloat(), value.toFloat())
+            }
+            input_dateData = dateData.subList(dateData.size-60,dateData.size)
+        }else if (daterange.value == 90 && values.size >= 90 && dateData.size >= 90){
+            input_points = values.mapIndexed { index, value ->
+                Point(index.toFloat(), value.toFloat())
+            }
+            input_dateData = dateData
         }
+//        Text(input_points.toString())
+        Text(
+            modifier=Modifier.padding(12.dp),
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            modifier=Modifier.padding(12.dp),
+            text = description,
+            style = MaterialTheme.typography.bodySmall
+        )
+        DottedLinechart(input_points, input_dateData,daterange.value)
+        Spacer(modifier = Modifier.height(12.dp))
+        Divider(modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp))
+    }
 }
 
-
 @Composable
-fun DottedLinechart(pointsData: List<Point>,dateData: List<String>) {
+fun DottedLinechart(pointsData: List<Point>,dateData: List<String>,daterange: Int) {
     val steps = 5
     val xAxisData = AxisData.Builder()
-        .axisStepSize(40.dp)
+        .axisStepSize(15.dp)
         .steps(pointsData.size - 1)
-        .labelData {"" }
-        .labelAndAxisLinePadding(15.dp)
+//        .labelData { x-> dateData[x]}
+        .labelData {""}
+        .labelAndAxisLinePadding(5.dp)
         .axisLineColor(Color(0xFFCCC2DC))
         .build()
     val yAxisData = AxisData.Builder()
@@ -303,12 +359,15 @@ fun DottedLinechart(pointsData: List<Point>,dateData: List<String>) {
             val yMin = pointsData.minOf { it.y }
             val yMax = pointsData.maxOf { it.y }
             val yScale = (yMax - yMin) / steps
-            ((i * yScale) + yMin).formatToSinglePrecision()
+//            ((i * yScale) + yMin).formatToSinglePrecision()
+            simplifyValue((i * yScale) + yMin)
         }
         .axisLineColor(Color(0xFFCCC2DC))
-        .labelAndAxisLinePadding(20.dp)
+        .labelAndAxisLinePadding(10.dp)
+        .axisLabelColor(Color(0xFFCCC2DC))
         .build()
     val data = LineChartData(
+        backgroundColor = Color.Transparent,
         linePlotData = LinePlotData(
             lines = listOf(
                 Line(
@@ -329,14 +388,14 @@ fun DottedLinechart(pointsData: List<Point>,dateData: List<String>) {
                         color = Color(0xFFCCC2DC)
                     ),
                     selectionHighlightPopUp = SelectionHighlightPopUp(
-                        backgroundColor = Color.Black, // need to change a color
+                        backgroundColor = Color.Transparent, // need to change a color
                         backgroundStyle = Stroke(2f),
                         labelColor = Color(0xFFCCC2DC),
                         labelTypeface = Typeface.DEFAULT_BOLD,
                         popUpLabel = { x, y ->
                             val xLabel = " ${dateData[x.toInt()]} "
-                            val yLabel = " ${String.format("%.2f", y)}"
-                            "$xLabel : $yLabel"
+                            val yLabel = " ${formatNumberWithCommas(y)}"
+                            x.toString() + "$xLabel : $yLabel"
                         }
                     )
                 )
@@ -402,7 +461,7 @@ fun graphpreview(){
     val dateData = prices.map{
         sdf.format(Date(it[0].toLong()))
     }
-    DottedLinechart(points, dateData)
+    DottedLinechart(points, dateData,90)
 
 
 }
