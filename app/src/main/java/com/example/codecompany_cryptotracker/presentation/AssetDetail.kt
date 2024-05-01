@@ -4,8 +4,10 @@ import android.graphics.Typeface
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +16,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -22,6 +26,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -32,12 +37,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -118,7 +125,7 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     }
 
 
-    val sdf = SimpleDateFormat("yyyy-MM-dd")
+    val sdf = SimpleDateFormat("MM-dd")
     val dateData = coinPrice.prices.map{
         sdf.format(Date(it[0].toLong()))
     }
@@ -130,8 +137,15 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     }
 
     var daterange = remember {
-        mutableStateOf(60)
+        mutableStateOf(7)
     }
+
+
+
+    val radioOptions = listOf("week", "month", "Longer")
+    val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+
+
 
 
     Scaffold(
@@ -157,19 +171,66 @@ fun AssetDetail(navController: NavController,assetId: String?) {
                 .padding(16.dp)
         ) {
 //            Text(text = pricesPoints.size.toString())
+
             LazyColumn {
                 item{
                     DetailInfo(assetId)
                 }
+
                 item{
-                    Text(
-                        text = "Charts",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(
+                            text = "History Data",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.End // Align radio buttons to the end
+                        ) {
+                            radioOptions.forEach { text ->
+                                Row(
+                                    Modifier
+                                        .height(36.dp)
+                                        .selectable(
+                                            selected = (text == selectedOption),
+                                            onClick = {
+                                                onOptionSelected(text)
+                                                // Update daterange based on the selected option
+                                                daterange.value = when (text) {
+                                                    "week" -> 7
+                                                    "month" -> 30
+                                                    "Longer" -> 90
+                                                    else -> 7
+                                                }
+                                            },
+                                            role = Role.RadioButton
+                                        )
+                                        .padding(horizontal = 5.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    RadioButton(
+                                        selected = (text == selectedOption),
+                                        onClick = null // null recommended for accessibility with screenreaders
+                                    )
+                                    Text(
+                                        text = text,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        modifier = Modifier.padding(start = 4.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+
+
                 }
-                item {  }
+                item {
+
+                }
                 item {
                     Chart(pricesTransformed, dateData,daterange,"Price Chart","The current value of that cryptocurrency in terms of another currency. It represents the rate at which one unit of the cryptocurrency can be exchanged for another currency at a given moment in time.")
                 }
@@ -306,16 +367,16 @@ fun Chart(
     if (values.isEmpty()){
         Text("No data available")
     }else{
-        if (daterange.value == 30 && values.size >= 30 && dateData.size >= 30){
+        if (daterange.value == 7 && values.size >= 7 && dateData.size >= 7){
+            input_points = values.subList(values.size-7,values.size).mapIndexed { index, value ->
+                Point(index.toFloat(), value.toFloat())
+            }
+            input_dateData = dateData.subList(dateData.size-7,dateData.size)
+        }else if (daterange.value == 30 && values.size >= 30 && dateData.size >= 30){
             input_points = values.subList(values.size-30,values.size).mapIndexed { index, value ->
                 Point(index.toFloat(), value.toFloat())
             }
             input_dateData = dateData.subList(dateData.size-30,dateData.size)
-        }else if (daterange.value == 60 && values.size >= 60 && dateData.size >= 60){
-            input_points = values.subList(values.size-60,values.size).mapIndexed { index, value ->
-                Point(index.toFloat(), value.toFloat())
-            }
-            input_dateData = dateData.subList(dateData.size-60,dateData.size)
         }else if (daterange.value == 90 && values.size >= 90 && dateData.size >= 90){
             input_points = values.mapIndexed { index, value ->
                 Point(index.toFloat(), value.toFloat())
@@ -344,13 +405,26 @@ fun Chart(
 
 @Composable
 fun DottedLinechart(pointsData: List<Point>,dateData: List<String>,daterange: Int) {
+    var stepSize = 10.dp
+    if (daterange == 7){
+        stepSize = 50.dp
+    } else if (daterange == 30){
+        stepSize = 20.dp
+    }
     val steps = 5
     val xAxisData = AxisData.Builder()
-        .axisStepSize(15.dp)
+        .axisStepSize(stepSize)
         .steps(pointsData.size - 1)
 //        .labelData { x-> dateData[x]}
-        .labelData {""}
-        .labelAndAxisLinePadding(5.dp)
+        .labelData {i ->
+               if (daterange == 7){
+                   dateData[i]}
+                else{
+                    ""
+                }
+            }
+        .labelAndAxisLinePadding(6.dp)
+        .axisLabelColor(Color(0xFFCCC2DC))
         .axisLineColor(Color(0xFFCCC2DC))
         .build()
     val yAxisData = AxisData.Builder()
@@ -395,7 +469,7 @@ fun DottedLinechart(pointsData: List<Point>,dateData: List<String>,daterange: In
                         popUpLabel = { x, y ->
                             val xLabel = " ${dateData[x.toInt()]} "
                             val yLabel = " ${formatNumberWithCommas(y)}"
-                            x.toString() + "$xLabel : $yLabel"
+                            "$xLabel : $yLabel"
                         }
                     )
                 )
@@ -422,33 +496,33 @@ fun graphpreview(){
         arrayOf(1712987205024, 67553.83499477942),
         arrayOf(1712987425229, 67484.5419511034),
         arrayOf(1712987709906, 67528.10219970117),
-        arrayOf(1712988056035, 67402.31677956472),
-        arrayOf(1712988382837, 67462.12660777815),
-        arrayOf(1712988675451, 67492.6275078025),
-        arrayOf(1712988942112, 67493.31976499925),
-        arrayOf(1712989262232, 67278.32864858327),
-        arrayOf(1712989532135, 67298.98549494924),
-        arrayOf(1712989818276, 67339.97980475398),
-        arrayOf(1712990103520, 67307.61569401757),
-        arrayOf(1712990430473, 67407.40293988558),
-        arrayOf(1712990748774, 67471.08558882782),
-        arrayOf(1712991016959, 67357.5685899125),
-        arrayOf(1712991352380, 67365.92413195697),
-        arrayOf(1712991625606, 67500.54595407809),
-        arrayOf(1712991949605, 67514.92273075809),
-        arrayOf(1712992219954, 67529.83695113784),
-        arrayOf(1712992572708, 67401.29921412093),
-        arrayOf(1712992843502, 67239.50810618968),
-        arrayOf(1712993113903, 67249.10369450266),
-        arrayOf(1712993427643, 67343.63041487713),
-        arrayOf(1712993725391, 67376.20946516907),
-        arrayOf(1712994072538, 67502.24391428393),
-        arrayOf(1712994332106, 67483.55533913216),
-        arrayOf(1712994600380, 67445.37407756124),
-        arrayOf(1712994991946, 67360.31296351513),
-        arrayOf(1712995247504, 67420.29572696098),
-        arrayOf(1712995512951, 67395.72383299933),
-        arrayOf(1712995853660, 67283.87127088389)
+//        arrayOf(1712988056035, 67402.31677956472),
+//        arrayOf(1712988382837, 67462.12660777815),
+//        arrayOf(1712988675451, 67492.6275078025),
+//        arrayOf(1712988942112, 67493.31976499925),
+//        arrayOf(1712989262232, 67278.32864858327),
+//        arrayOf(1712989532135, 67298.98549494924),
+//        arrayOf(1712989818276, 67339.97980475398),
+//        arrayOf(1712990103520, 67307.61569401757),
+//        arrayOf(1712990430473, 67407.40293988558),
+//        arrayOf(1712990748774, 67471.08558882782),
+//        arrayOf(1712991016959, 67357.5685899125),
+//        arrayOf(1712991352380, 67365.92413195697),
+//        arrayOf(1712991625606, 67500.54595407809),
+//        arrayOf(1712991949605, 67514.92273075809),
+//        arrayOf(1712992219954, 67529.83695113784),
+//        arrayOf(1712992572708, 67401.29921412093),
+//        arrayOf(1712992843502, 67239.50810618968),
+//        arrayOf(1712993113903, 67249.10369450266),
+//        arrayOf(1712993427643, 67343.63041487713),
+//        arrayOf(1712993725391, 67376.20946516907),
+//        arrayOf(1712994072538, 67502.24391428393),
+//        arrayOf(1712994332106, 67483.55533913216),
+//        arrayOf(1712994600380, 67445.37407756124),
+//        arrayOf(1712994991946, 67360.31296351513),
+//        arrayOf(1712995247504, 67420.29572696098),
+//        arrayOf(1712995512951, 67395.72383299933),
+//        arrayOf(1712995853660, 67283.87127088389)
     )
 
     val transformedPrices = prices.mapIndexed { index, array ->
