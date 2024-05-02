@@ -2,6 +2,8 @@ package com.example.codecompany_cryptotracker.presentation
 
 import android.graphics.Typeface
 import android.os.Build
+import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,17 +11,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,10 +37,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -44,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -65,10 +68,15 @@ import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.codecompany_cryptotracker.data.model.Article
+import com.example.codecompany_cryptotracker.data.model.CoinData
 import com.example.codecompany_cryptotracker.data.model.CoinDataViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
+import com.example.codecompany_cryptotracker.data.model.CoinTickerData
 import com.example.codecompany_cryptotracker.data.model.CoinTickerViewModel
+import com.example.codecompany_cryptotracker.data.model.Description
+import com.example.codecompany_cryptotracker.data.model.Links
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
+import com.example.codecompany_cryptotracker.data.model.Ticker
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
 import com.example.codecompany_cryptotracker.network.RetrofitNewsInstance
@@ -132,7 +140,7 @@ fun AssetDetail(navController: NavController,assetId: String?) {
 
 
 
-    val total_volumesTransformed = coinPrice.prices.map {
+    val total_volumesTransformed = coinPrice.total_volumes.map {
         it[1]
     }
 
@@ -140,12 +148,8 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         mutableStateOf(7)
     }
 
-
-
     val radioOptions = listOf("week", "month", "Longer")
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
-
-
 
 
     Scaffold(
@@ -174,14 +178,14 @@ fun AssetDetail(navController: NavController,assetId: String?) {
 
             LazyColumn {
                 item{
-                    DetailInfo(assetId)
+                    CoinDetail(coinData,coinTicker,navController)
                 }
 
                 item{
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(
-                            text = "History Data",
-                            style = MaterialTheme.typography.titleLarge,
+                            text = "Market",
+                            style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
@@ -232,11 +236,11 @@ fun AssetDetail(navController: NavController,assetId: String?) {
 
                 }
                 item {
-                    Chart(pricesTransformed, dateData,daterange,"Price Chart","The current value of that cryptocurrency in terms of another currency. It represents the rate at which one unit of the cryptocurrency can be exchanged for another currency at a given moment in time.")
+                    Chart(pricesTransformed,total_volumesTransformed, dateData,daterange)
                 }
-                item {
-                    Chart(total_volumesTransformed, dateData,daterange,"Total Volume Chart","The overall amount of trading activity, showing how much of the cryptocurrency has been bought and sold within a specific time frame.")
-                }
+//                item {
+//                    Chart(total_volumesTransformed, dateData,daterange,"Total Volume","The overall amount of trading activity, showing how much of the cryptocurrency has been bought and sold within a specific time frame.")
+//                }
                 item {
                     LazyRowForNews(navController = navController, coinNews)
                 }
@@ -252,20 +256,64 @@ fun AssetDetail(navController: NavController,assetId: String?) {
 
 
 @Composable
-fun DetailInfo(assetId: String?){
-    Text(
-        text = "Place Holder for ${assetId}",
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(bottom = 8.dp)
-    )
+fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: NavController) {
+    var tradeUrl: String? = coinTicker.tickers.firstOrNull()?.tradeUrl
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = coinData.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+                coinData.id?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
+                }
+            }
+            Button(
+                onClick = {
+                    if (tradeUrl != null) {
+                        navController.navigate("webView/${URLEncoder.encode(tradeUrl, "UTF-8")}")
+                    }
+                },
+                modifier = Modifier.padding(start = 8.dp),
+                enabled = tradeUrl != null  // Disable button if tradeUrl is null
+            ) {
+                Text(text = "Trade")
+            }
+        }
+
+
+        Spacer(modifier = Modifier.height(12.dp))
+        Divider(modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp)
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+
+    }
+
 }
+
 @Composable
 fun LazyRowForNews(navController: NavController, news: List<Article>) {
     Column(modifier = Modifier.padding(vertical = 12.dp)) {
         Text(
             text = "Latest News",
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -357,49 +405,72 @@ fun formatNumberWithCommas(number: Float): String {
 }
 @Composable
 fun Chart(
-    values: List<Double>,
+    pricesTransformed: List<Double>,
+    total_volumesTransformed: List<Double>,
     dateData: List<String>,
-    daterange: MutableState<Int>,
-    title: String,
-    description: String){
-    var input_points:List<Point> = emptyList()
+    daterange: MutableState<Int>,){
+    var input_pricesTransformed:List<Point> = emptyList()
+    var input_volumnTransformed:List<Point> = emptyList()
     var input_dateData:List<String> = emptyList()
-    if (values.isEmpty()){
+    if (pricesTransformed.isEmpty() or total_volumesTransformed.isEmpty()){
         Text("No data available")
     }else{
-        if (daterange.value == 7 && values.size >= 7 && dateData.size >= 7){
-            input_points = values.subList(values.size-7,values.size).mapIndexed { index, value ->
+        if (daterange.value == 7 && pricesTransformed.size >= 7 && total_volumesTransformed.size >=7 && dateData.size >= 7){
+            input_pricesTransformed = pricesTransformed.subList(pricesTransformed.size-7,pricesTransformed.size).mapIndexed { index, value ->
+                Point(index.toFloat(), value.toFloat())
+            }
+            input_volumnTransformed = total_volumesTransformed.subList(total_volumesTransformed.size-7,total_volumesTransformed.size).mapIndexed { index, value ->
                 Point(index.toFloat(), value.toFloat())
             }
             input_dateData = dateData.subList(dateData.size-7,dateData.size)
-        }else if (daterange.value == 30 && values.size >= 30 && dateData.size >= 30){
-            input_points = values.subList(values.size-30,values.size).mapIndexed { index, value ->
+        }else if (daterange.value == 30 && pricesTransformed.size >= 30 && total_volumesTransformed.size >=7 && dateData.size >= 30){
+            input_pricesTransformed = pricesTransformed.subList(pricesTransformed.size-30,pricesTransformed.size).mapIndexed { index, value ->
+                Point(index.toFloat(), value.toFloat())
+            }
+            input_volumnTransformed = total_volumesTransformed.subList(total_volumesTransformed.size-30,total_volumesTransformed.size).mapIndexed { index, value ->
                 Point(index.toFloat(), value.toFloat())
             }
             input_dateData = dateData.subList(dateData.size-30,dateData.size)
-        }else if (daterange.value == 90 && values.size >= 90 && dateData.size >= 90){
-            input_points = values.mapIndexed { index, value ->
+        }else if (daterange.value == 90 && pricesTransformed.size >= 90 && total_volumesTransformed.size >= 90 && dateData.size >= 90){
+            input_pricesTransformed = pricesTransformed.mapIndexed { index, value ->
+                Point(index.toFloat(), value.toFloat())
+            }
+            input_volumnTransformed = total_volumesTransformed.mapIndexed { index, value ->
                 Point(index.toFloat(), value.toFloat())
             }
             input_dateData = dateData
         }
 //        Text(input_points.toString())
         Text(
-            modifier=Modifier.padding(12.dp),
-            text = title,
-            style = MaterialTheme.typography.titleMedium,
+            text = "Price",
+            style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold
         )
         Text(
-            modifier=Modifier.padding(12.dp),
-            text = description,
+            text = "The current value of that cryptocurrency in terms of another currency. It represents the rate at which one unit of the cryptocurrency can be exchanged for another currency at a given moment in time.",
             style = MaterialTheme.typography.bodySmall
         )
-        DottedLinechart(input_points, input_dateData,daterange.value)
+        DottedLinechart(input_pricesTransformed, input_dateData,daterange.value)
         Spacer(modifier = Modifier.height(12.dp))
         Divider(modifier = Modifier
             .fillMaxWidth()
             .height(1.dp))
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = "Total Volume",
+            style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "The overall amount of trading activity, showing how much of the cryptocurrency has been bought and sold within a specific time frame.",
+            style = MaterialTheme.typography.bodySmall
+        )
+        DottedLinechart(input_volumnTransformed, input_dateData,daterange.value)
+        Spacer(modifier = Modifier.height(12.dp))
+        Divider(modifier = Modifier
+            .fillMaxWidth()
+            .height(1.dp))
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
@@ -467,10 +538,18 @@ fun DottedLinechart(pointsData: List<Point>,dateData: List<String>,daterange: In
                         labelColor = Color(0xFFCCC2DC),
                         labelTypeface = Typeface.DEFAULT_BOLD,
                         popUpLabel = { x, y ->
-                            val xLabel = " ${dateData[x.toInt()]} "
-                            val yLabel = " ${formatNumberWithCommas(y)}"
-                            "$xLabel : $yLabel"
+                            try {
+                                val xLabel = "${dateData[x.toInt()]}"
+                                val yLabel = "${formatNumberWithCommas(y)}"
+                                "$xLabel : $yLabel"
+                            } catch (e: Exception) {
+                                Log.d("Error", e.toString())
+                                ""
+                            }
                         }
+
+
+
                     )
                 )
             )
