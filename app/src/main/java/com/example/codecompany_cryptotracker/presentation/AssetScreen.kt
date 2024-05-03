@@ -26,10 +26,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
@@ -49,7 +51,7 @@ fun AssetList(navController: NavController) {
         TopAppBar(
             title = {
                 Text(
-                    text = "Crypto Tracker",
+                    text = stringResource(R.string.crypto_tracker),
                     textAlign = TextAlign.Center, // Aligning text to the center
                     modifier = Modifier.fillMaxWidth() // Making sure the text takes full width
                 )
@@ -107,19 +109,13 @@ fun AssetItem(
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "Price: $${coin.currentPrice}",
+                    text = stringResource(R.string.price, coin.currentPrice),
                     style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
                     color = Color.Black.copy(alpha = 0.8f),
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = "Market Cap: $${coin.marketCap}",
-                    style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
-                    color = Color.Black.copy(alpha = 0.8f),
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
-                Text(
-                    text = "Price Change (24h): ${coin.priceChangePercentage24h}%",
+                    text = stringResource(R.string.price_change_24h, coin.priceChangePercentage24h),
                     style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
                     color = if (coin.priceChangePercentage24h >= 0) Color.Green else Color.Red,
                     modifier = Modifier.padding(bottom = 4.dp)

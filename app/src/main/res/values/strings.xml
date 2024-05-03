@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">CodeCompany_CryptoTracker</string>
+    <string name="app_name">代码公司_加密货币跟踪器</string>
+    <string name="coins">硬币</string>
+    <string name="news">新闻</string>
+    <string name="favorite">收藏</string>
+    <string name="settings">设置</string>
+    <string name="crypto_tracker">加密货币跟踪器</string>
+    <string name="price">价格: $%1$s</string>
+    <string name="market_cap">市值: $%1$s</string>
+    <string name="price_change_24h">价格变动（24小时）: %1$s</string>
 </resources>

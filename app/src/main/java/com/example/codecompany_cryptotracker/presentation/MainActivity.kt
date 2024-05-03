@@ -34,9 +34,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.codecompany_cryptotracker.R
 
 
 import com.example.codecompany_cryptotracker.ui.theme.CodeCompany_CryptoTrackerTheme
@@ -81,25 +83,25 @@ fun BottomNavigation(){
     }
     val items = listOf(
         BottomNavigationItem(
-            title = "Coins",
+            title = stringResource(R.string.coins),
             selectedIcon = Icons.Filled.CurrencyExchange,
             unselectedIcon = Icons.Outlined.CurrencyExchange,
             route = "AssetList"
         ),
         BottomNavigationItem(
-            title = "News",
+            title = stringResource(R.string.news),
             selectedIcon = Icons.Filled.Newspaper,
             unselectedIcon = Icons.Outlined.Newspaper,
             route = "NewsList"
         ),
         BottomNavigationItem(
-            title = "Favorite",
+            title = stringResource(R.string.favorite),
             selectedIcon = Icons.Filled.Star,
             unselectedIcon = Icons.Outlined.Star,
             route = "Favorite"
         ),
         BottomNavigationItem(
-            title = "Settings",
+            title = stringResource(R.string.settings),
             selectedIcon = Icons.Filled.Settings,
             unselectedIcon = Icons.Outlined.Settings,
             route = "Settings"
