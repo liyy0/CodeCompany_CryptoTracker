@@ -122,7 +122,9 @@ fun DeveloperSection(){
 
         )
     Column(
-        modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
+        modifier = Modifier
+            .padding(horizontal = 12.dp)
+            .fillMaxWidth()
     ) {
         Text(text = stringResource(R.string.developers_of_the_app)
             , style = MaterialTheme.typography.titleSmall)
