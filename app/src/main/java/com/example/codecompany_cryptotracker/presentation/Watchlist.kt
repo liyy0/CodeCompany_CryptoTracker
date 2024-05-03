@@ -26,12 +26,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
@@ -43,7 +45,7 @@ fun Favorite(navController: NavController) {
     TopAppBar(
         title = {
             Text(
-                text = "Watch list",
+                text = stringResource(R.string.watch_list),
                 textAlign = TextAlign.Center, // Aligning text to the center
                 modifier = Modifier.fillMaxWidth() // Making sure the text takes full width
             )

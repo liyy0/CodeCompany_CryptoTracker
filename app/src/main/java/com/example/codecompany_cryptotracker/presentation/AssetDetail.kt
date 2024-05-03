@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -67,6 +68,7 @@ import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.Article
 import com.example.codecompany_cryptotracker.data.model.CoinData
 import com.example.codecompany_cryptotracker.data.model.CoinDataViewModel
@@ -148,7 +150,9 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         mutableStateOf(7)
     }
 
-    val radioOptions = listOf("week", "month", "Longer")
+    val radioOptions = listOf(stringResource(R.string.week),
+        stringResource(R.string.month), stringResource(R.string.longer)
+    )
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
 
 
@@ -157,7 +161,7 @@ fun AssetDetail(navController: NavController,assetId: String?) {
             TopAppBar(
                 title = {
                     Text(
-                        text = assetId ?: "Unknown",
+                        text = assetId ?: stringResource(R.string.unknown),
                         modifier = Modifier.fillMaxWidth() // Making sure the text takes full width
                     )
                 },
@@ -184,7 +188,7 @@ fun AssetDetail(navController: NavController,assetId: String?) {
                 item{
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(
-                            text = "Market",
+                            text = stringResource(R.string.market),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 8.dp)
@@ -292,7 +296,7 @@ fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: Na
                 modifier = Modifier.padding(start = 8.dp),
                 enabled = tradeUrl != null  // Disable button if tradeUrl is null
             ) {
-                Text(text = "Trade")
+                Text(text = stringResource(R.string.trade))
             }
         }
 
@@ -312,14 +316,14 @@ fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: Na
 fun LazyRowForNews(navController: NavController, news: List<Article>) {
     Column(modifier = Modifier.padding(vertical = 12.dp)) {
         Text(
-            text = "Latest News",
+            text = stringResource(R.string.latest_news),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
         if (news.isEmpty()) {
             Text(
-                text = "No news available",
+                text = stringResource(R.string.no_news_available),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(start = 16.dp)
             )
@@ -413,7 +417,7 @@ fun Chart(
     var input_volumnTransformed:List<Point> = emptyList()
     var input_dateData:List<String> = emptyList()
     if (pricesTransformed.isEmpty() or total_volumesTransformed.isEmpty()){
-        Text("No data available")
+        Text(stringResource(R.string.no_data_available))
     }else{
         if (daterange.value == 7 && pricesTransformed.size >= 7 && total_volumesTransformed.size >=7 && dateData.size >= 7){
             input_pricesTransformed = pricesTransformed.subList(pricesTransformed.size-7,pricesTransformed.size).mapIndexed { index, value ->
@@ -442,12 +446,12 @@ fun Chart(
         }
 //        Text(input_points.toString())
         Text(
-            text = "Price",
+            text = stringResource(R.string.price_detail),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "The current value of that cryptocurrency in terms of another currency. It represents the rate at which one unit of the cryptocurrency can be exchanged for another currency at a given moment in time.",
+            text = stringResource(R.string.price_description),
             style = MaterialTheme.typography.bodySmall
         )
         DottedLinechart(input_pricesTransformed, input_dateData,daterange.value)
@@ -457,12 +461,12 @@ fun Chart(
             .height(1.dp))
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "Total Volume",
+            text = stringResource(R.string.total_volume),
             style = MaterialTheme.typography.titleSmall,
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "The overall amount of trading activity, showing how much of the cryptocurrency has been bought and sold within a specific time frame.",
+            text = stringResource(R.string.volume_description),
             style = MaterialTheme.typography.bodySmall
         )
         DottedLinechart(input_volumnTransformed, input_dateData,daterange.value)

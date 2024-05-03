@@ -1,8 +1,5 @@
 package com.example.codecompany_cryptotracker.presentation
 
-
-
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
@@ -12,7 +9,6 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -21,22 +17,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -45,33 +35,34 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import coil.compose.AsyncImage
 import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.local.Developer
-import com.example.codecompany_cryptotracker.domain.Asset
-import com.example.codecompany_cryptotracker.util.loadAssets
+
 
 
 data class Setting(val name: String, val contents: String, val id: Int)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingScreen() {
-
+    val developerstring = stringResource(R.string.developers)
+    val developer_content = stringResource(R.string.developers_of_the_app)
+    val feedback = stringResource(R.string.feedback)
+    val feedback_content = stringResource(R.string.please_give_us_some_feedbacks)
+    val rate = stringResource(R.string.rate_us)
+    val rate_content = stringResource(R.string.rate_us_here)
     val settingItems = remember {
         listOf(
-            Setting("Developers", "Developers of the App:", 0),
-            Setting("Feedback", "Please give us some feedbacks.", 1),
-            Setting("Rate us", "Rate us here:", 2),
+            Setting(developerstring, developer_content, 0),
+            Setting(feedback, feedback_content, 1),
+            Setting(rate, rate_content, 2),
 
         )
     }
@@ -81,7 +72,7 @@ fun SettingScreen() {
         modifier = Modifier.fillMaxSize()
     ) {
         TopAppBar(
-            title = { Text(text = "Crypto Tracker",style = MaterialTheme.typography.titleLarge,) },
+            title = { Text(text = stringResource(R.string.crypto_tracker),style = MaterialTheme.typography.titleLarge,) },
 //            backgroundColor = MaterialTheme.colors.primary,
             modifier = Modifier.fillMaxWidth()
         )
@@ -131,9 +122,10 @@ fun DeveloperSection(){
 
         )
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth()
     ) {
-        Text(text = "Developers", style = MaterialTheme.typography.titleMedium)
+        Text(text = stringResource(R.string.developers_of_the_app)
+            , style = MaterialTheme.typography.titleSmall)
         Spacer(modifier = Modifier.height(8.dp))
         developer.forEach {
             DeveloperItem(developer = it)
@@ -174,33 +166,26 @@ fun FooterSection() {
         Divider(color = Color.Gray, thickness = 1.dp)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "Version: 1.0.0",
+            text = stringResource(R.string.version_1_0_0),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Release Date: April 17, 2024",
+            text = stringResource(R.string.release_date_april_17_2024),
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "Privacy Policy",
-            style = MaterialTheme.typography.labelMedium,
-//            color = MaterialTheme.colors.primary,
-//            modifier = Modifier.clickable { /* Handle privacy policy click */ }
-        )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "Terms of Service",
+            text = stringResource(R.string.terms_of_service),
             style = MaterialTheme.typography.labelMedium,
 //            color = MaterialTheme.colors.primary,
 //            modifier = Modifier.clickable { /* Handle terms of service click */ }
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = "© 2024 Crypto Tracker. All rights reserved.",
+            text = stringResource(R.string._2024_crypto_tracker_all_rights_reserved),
             style = MaterialTheme.typography.labelSmall,
             color = Color.Gray,
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -267,7 +252,7 @@ fun ExpandedContent(isExpanded: Boolean, desc:String) {
     AnimatedVisibility(visible = isExpanded,
         enter = enterTransition,
         exit = exitTransition) {
-        if (desc == "Developers of the App:"){
+        if ((desc == "Developers of the App:") or (desc == "开发团队")){
             DeveloperSection()}
         else {
             Text(text = desc, textAlign = TextAlign.Justify)

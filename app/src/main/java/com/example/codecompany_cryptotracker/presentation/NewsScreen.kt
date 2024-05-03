@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitNewsInstance
@@ -49,7 +51,7 @@ fun NewsList(navController: NavController) {
         TopAppBar(
             title = {
                 Text(
-                    text = "Crypto News",
+                    text = stringResource(R.string.crypto_news),
                     textAlign = TextAlign.Center, // Aligning text to the center
                     modifier = Modifier.fillMaxWidth() // Making sure the text takes full width
                 )
@@ -63,7 +65,14 @@ fun NewsList(navController: NavController) {
                         .padding(8.dp)
                         .clickable {
                             // Use the launcher to open the news URL in a browser
-                            navController.navigate("webView/${URLEncoder.encode(article.url, "UTF-8")}")
+                            navController.navigate(
+                                "webView/${
+                                    URLEncoder.encode(
+                                        article.url,
+                                        "UTF-8"
+                                    )
+                                }"
+                            )
                         }
                 ) {
                     Column {
