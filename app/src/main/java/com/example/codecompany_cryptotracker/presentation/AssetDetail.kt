@@ -37,6 +37,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -72,6 +73,7 @@ import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.Article
 import com.example.codecompany_cryptotracker.data.model.CoinData
 import com.example.codecompany_cryptotracker.data.model.CoinDataViewModel
+import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinTickerData
 import com.example.codecompany_cryptotracker.data.model.CoinTickerViewModel
@@ -120,15 +122,19 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         }
         else{CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), "BitCoin")}
     }
+
+    var marketViewModel = remember{
+        CoinNameViewModel(CoinReposImp(RetrofitInstance.api), assetId)
+    }
+    val coinMarketData1 by marketViewModel.products.collectAsState()
+
+
+    val coinMarketData = coinMarketData1.firstOrNull()
     var coinPrice = PriceviewModel.products.collectAsState().value
     var coinNews = newsViewModel.products.collectAsState().value.articles
     var coinData = CoinDataViewModel.products.collectAsState().value
     var coinTicker = CoinTickerViewModel.products.collectAsState().value
 
-
-//    val pricesTransformed = coinPrice.prices.mapIndexed { index, array ->
-//        arrayOf(index, array[1])
-//    }
 
     val pricesTransformed = coinPrice.prices.map {
         it[1]
@@ -187,6 +193,9 @@ fun AssetDetail(navController: NavController,assetId: String?) {
 
                 item{
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                        if (coinMarketData != null) {
+                            CryptoInfoCard(coin = coinMarketData)
+                        }
                         Text(
                             text = stringResource(R.string.market),
                             style = MaterialTheme.typography.titleMedium,
