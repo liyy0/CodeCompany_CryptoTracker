@@ -1,5 +1,6 @@
 package com.example.codecompany_cryptotracker.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -34,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
@@ -47,6 +49,7 @@ import com.example.codecompany_cryptotracker.common.Navigation
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
+import com.example.codecompany_cryptotracker.data.model.WatchListData
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import kotlinx.coroutines.flow.collect
 
@@ -60,6 +63,8 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val context = applicationContext
+        val watchList= WatchListData(context)
 
 //
 //        var coinNameList = CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
@@ -69,14 +74,16 @@ class MainActivity : ComponentActivity() {
 //                Text(text = "Hello World")
 //                var str = coinNamePrice.products.collectAsState().value.toString()
 //                Text(text = str)
-                BottomNavigation()
+                BottomNavigation(watchList)
             }
         }
     }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomNavigation(){
+fun BottomNavigation(
+    watchList: WatchListData
+){
     val navController = rememberNavController()
     var selectedItemIndex by rememberSaveable {
         mutableStateOf(0)
@@ -138,7 +145,7 @@ fun BottomNavigation(){
         }
     ){paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            Navigation(navController)
+            Navigation(navController, watchList)
         }
     }
 }
@@ -157,7 +164,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     CodeCompany_CryptoTrackerTheme {
-        BottomNavigation()
+//        BottomNavigation()
     }
 }
 

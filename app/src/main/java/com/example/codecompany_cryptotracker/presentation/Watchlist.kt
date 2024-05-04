@@ -24,12 +24,13 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
+import com.example.codecompany_cryptotracker.data.model.WatchListData
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Favorite(navController: NavController) {
+fun Favorite(navController: NavController, watchList: WatchListData) {
 
 //    if (coinMarketData != null) {
 //        CryptoInfoCard(coin = coinMarketData)
@@ -39,15 +40,3 @@ fun Favorite(navController: NavController) {
 //    }
 
     }
-
-
-
-
-
-
-@Preview
-@Composable
-fun PreviewFavorite() {
-
-    Favorite(rememberNavController())
-}
