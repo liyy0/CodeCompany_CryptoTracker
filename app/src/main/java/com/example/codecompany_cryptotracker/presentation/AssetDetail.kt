@@ -72,6 +72,7 @@ import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.Article
 import com.example.codecompany_cryptotracker.data.model.CoinData
 import com.example.codecompany_cryptotracker.data.model.CoinDataViewModel
+import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinTickerData
 import com.example.codecompany_cryptotracker.data.model.CoinTickerViewModel
@@ -120,11 +121,14 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         }
         else{CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), "BitCoin")}
     }
+
+
     var coinPrice = PriceviewModel.products.collectAsState().value
     var coinNews = newsViewModel.products.collectAsState().value.articles
     var coinData = CoinDataViewModel.products.collectAsState().value
     var coinTicker = CoinTickerViewModel.products.collectAsState().value
 
+//    Log.d("debug", coinMarketData.size.toString())
 
 //    val pricesTransformed = coinPrice.prices.mapIndexed { index, array ->
 //        arrayOf(index, array[1])

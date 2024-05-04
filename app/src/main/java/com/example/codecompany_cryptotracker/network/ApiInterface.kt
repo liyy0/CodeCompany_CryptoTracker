@@ -17,7 +17,8 @@ interface ApiInterface {
     suspend fun getAllCoinName(
         @Query("x_cg_demo_api_key")apiKey:String,
         @Query("vs_currency") currency: String,
-        @Query("locale") local: String
+        @Query("locale") local: String,
+        @Query("ids") coinId: String?
     ): CoinName
 
     @GET("coins/{id}")

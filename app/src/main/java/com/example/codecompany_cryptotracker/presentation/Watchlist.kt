@@ -38,14 +38,22 @@ import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
+import com.example.codecompany_cryptotracker.network.RetrofitNewsInstance
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Favorite(navController: NavController) {
+    var marketViewModel = remember{
+        CoinNameViewModel(CoinReposImp(RetrofitInstance.api), "bitcoin")
+    }
+    var coinMarketData = marketViewModel.products.collectAsState().value
+//    var data = remember{coinMarketData}
     TopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.watch_list),
+//                text = coinMarketData.toString(),
+
                 textAlign = TextAlign.Center, // Aligning text to the center
                 modifier = Modifier.fillMaxWidth() // Making sure the text takes full width
             )
@@ -53,7 +61,7 @@ fun Favorite(navController: NavController) {
     )
 
     Card {
-        Text(text = "Favorite")
+        Text(text = coinMarketData.toString())
     }
 }
 

@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class CoinNameViewModel (
-        private val coinRepos: CoinRepos): ViewModel() {
+        private val coinRepos: CoinRepos,
+        private val ids: String? ): ViewModel() {
 
         private val _products = MutableStateFlow<List<CoinNameItem>>(emptyList())
         val products = _products.asStateFlow()
@@ -26,7 +27,7 @@ class CoinNameViewModel (
 
         fun changeLocal(currency:String, locale: String){
             viewModelScope.launch {
-                coinRepos.getAllCoinList(currency, locale).collectLatest { result ->
+                coinRepos.getAllCoinList(currency, locale, ids).collectLatest { result ->
                     when(result) {
                         is Result.Error -> {
                             Log.d("ViewModel", "Error")
@@ -47,7 +48,7 @@ class CoinNameViewModel (
         init {
             viewModelScope.launch {
                     Log.d("ViewModel", "Init Coin Name View Model")
-                coinRepos.getAllCoinList("usd", "en").collectLatest { result ->
+                coinRepos.getAllCoinList("usd", "en", ids).collectLatest { result ->
                     when(result) {
                         is Result.Error -> {
                             result.message?.let { Log.d("ViewModel", it) }
