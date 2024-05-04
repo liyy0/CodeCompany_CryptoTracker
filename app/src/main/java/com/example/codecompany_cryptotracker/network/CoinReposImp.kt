@@ -21,11 +21,12 @@ class CoinReposImp(
 
         override suspend fun getAllCoinList(
             currency: String,
-            locale: String
+            locale: String,
+            id: String?
         ): Flow<Result<List<CoinNameItem>>> {
             return flow {
                 val productsFromApi = try {
-                    api.getAllCoinName(API_KEY, currency, locale)
+                    api.getAllCoinName(API_KEY, currency, locale, id)
                 } catch (e: IOException) {
                     e.printStackTrace()
                     emit(Result.Error(message = e.stackTraceToString()))

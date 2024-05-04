@@ -44,7 +44,7 @@ import com.example.codecompany_cryptotracker.util.loadAssets
 fun AssetList(navController: NavController) {
 
     var tempviewModel = remember {
-        CoinNameViewModel(CoinReposImp(RetrofitInstance.api))
+        CoinNameViewModel(CoinReposImp(RetrofitInstance.api), null)
     }
     var coinNamesList = tempviewModel.products.collectAsState().value
     Column {

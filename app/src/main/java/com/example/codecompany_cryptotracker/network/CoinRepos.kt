@@ -11,7 +11,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CoinRepos {
-        suspend fun getAllCoinList(curreny: String, locale: String): Flow<Result<List<CoinNameItem>>>
+        suspend fun getAllCoinList(curreny: String, locale: String, id: String?): Flow<Result<List<CoinNameItem>>>
 
     suspend fun getCoinDataById(id: String,
                                 communityData: Boolean = true,
