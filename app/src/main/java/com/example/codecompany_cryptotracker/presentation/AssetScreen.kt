@@ -34,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,8 +45,6 @@ import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.WatchListData
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
-
-import com.example.codecompany_cryptotracker.util.loadAssets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,7 +74,6 @@ fun AssetList(navController: NavController,
                     watchList
                 )
             }
-
         }
     }
     }
@@ -89,7 +85,7 @@ fun AssetItem(
     watchList: WatchListData,
     modifier: Modifier = Modifier
 ) {
-    var isStarred by remember { mutableStateOf(false)}
+
     Card(
         modifier = modifier
             .padding(8.dp)
@@ -135,27 +131,31 @@ fun AssetItem(
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
             }
-            isStarred = watchList.isCoinId(coin.id)
-            IconButton(
-                onClick = {
-                    // Toggle the star status
-                    if (isStarred) {
-                        watchList.removeCoinId(coin.id)
-                        isStarred = false;
-                    } else {
-                        watchList.addCoinId(coin.id)
-                        isStarred = true;
-                    }
-                },
-                modifier = Modifier.size(48.dp)
-            ) {
-                Icon(
-                    imageVector = if (isStarred) Icons.Filled.Star else Icons.Outlined.StarBorder,
-                    contentDescription = "Star",
-                    tint = if (isStarred) MaterialTheme.colorScheme.primary else LocalContentColor.current
-                )
-            }
+            FavouriteIconButton(watchList = watchList, coin = coin )
         }
     }
 }
-
+@Composable
+fun FavouriteIconButton(watchList: WatchListData, coin:CoinNameItem){
+    var isStarred by remember { mutableStateOf(false)}
+    isStarred = watchList.isCoinId(coin.id)
+    IconButton(
+        onClick = {
+            // Toggle the star status
+            if (isStarred) {
+                watchList.removeCoinId(coin.id)
+                isStarred = false;
+            } else {
+                watchList.addCoinId(coin.id)
+                isStarred = true;
+            }
+        },
+        modifier = Modifier.size(48.dp)
+    ) {
+        Icon(
+            imageVector = if (isStarred) Icons.Filled.Star else Icons.Outlined.StarBorder,
+            contentDescription = "Star",
+            tint = if (isStarred) MaterialTheme.colorScheme.primary else LocalContentColor.current
+        )
+    }
+}

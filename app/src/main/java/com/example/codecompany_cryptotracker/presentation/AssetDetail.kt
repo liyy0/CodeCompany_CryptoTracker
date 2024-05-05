@@ -3,7 +3,6 @@ package com.example.codecompany_cryptotracker.presentation
 import android.graphics.Typeface
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -11,11 +10,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -77,10 +74,7 @@ import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinTickerData
 import com.example.codecompany_cryptotracker.data.model.CoinTickerViewModel
-import com.example.codecompany_cryptotracker.data.model.Description
-import com.example.codecompany_cryptotracker.data.model.Links
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataViewModel
-import com.example.codecompany_cryptotracker.data.model.Ticker
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
 import com.example.codecompany_cryptotracker.network.RetrofitNewsInstance

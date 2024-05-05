@@ -61,5 +61,9 @@ class WatchListData (private val context: Context) {
             }
         }
 
+    fun getCoinIdsAsString(): String {
+        return coinIds.joinToString(",")
+    }
+
 
 }

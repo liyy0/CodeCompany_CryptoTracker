@@ -34,4 +34,5 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_of_service">Terms of Condition</string>
     <string name="_2024_crypto_tracker_all_rights_reserved">© 2024 Crypto Tracker. All rights reserved.</string>
+    <string name="crypto_tracker_watchlist">Watch List</string>
 </resources>
