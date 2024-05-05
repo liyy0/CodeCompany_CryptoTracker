@@ -32,9 +32,11 @@ class WatchListData (private val context: Context) {
 
         // Function to add a coinId to the watchlist
         fun addCoinId(coinId: String) {
+            if(!isCoinId(coinId)){
+                coinIds.add(coinId)
+                saveWatchListToSandbox()
+            }
 
-            coinIds.add(coinId)
-            saveWatchListToSandbox()
         }
 
         // Function to remove a coinId from the watchlist
