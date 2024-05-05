@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -55,6 +56,9 @@ fun AssetList(navController: NavController,
         CoinNameViewModel(CoinReposImp(RetrofitInstance.api), null)
     }
     var coinNamesList = tempviewModel.products.collectAsState().value
+    // State variable to hold the current search query
+    var searchQuery by remember { mutableStateOf("") }
+
     Column {
         TopAppBar(
             title = {
@@ -65,8 +69,23 @@ fun AssetList(navController: NavController,
                 )
             }
         )
+
+        // TextField for user input
+        TextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            label = { Text("Search") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        )
+
         LazyColumn {
-            items(coinNamesList) { asset ->
+            val filteredList = coinNamesList.filter { asset ->
+                asset.name.contains(searchQuery, ignoreCase = true)
+            }
+
+            items(filteredList) { asset ->
                 AssetItem(asset,
                     onItemClick = {
                         navController.navigate("AssetDetail/${asset.id}")
