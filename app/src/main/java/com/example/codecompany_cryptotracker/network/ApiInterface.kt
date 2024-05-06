@@ -37,7 +37,6 @@ interface ApiInterface {
     suspend fun getTickersById(
         @Path("id") id: String,
         @Query("x_cg_demo_api_key")apiKey:String,
-
         @Query("exchange_ids") exchangeIds: String? = "binance",
         @Query("include_exchange_logo") includeExchangeLogo: Boolean = false,
         @Query("page") page: Int? = 1,

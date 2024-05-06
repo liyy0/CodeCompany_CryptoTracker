@@ -22,7 +22,9 @@ import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.O)
 class CoinNewsViewModel
-    (private val coinRepos: CoinRepos, private val id: String): ViewModel() {
+    (private val coinRepos: CoinRepos,
+     private val id: String,
+     private val language: String = "en"): ViewModel() {
     var initialValue = CoinNews(
         status = "init",
         totalResults = -1,
@@ -51,7 +53,7 @@ class CoinNewsViewModel
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 Log.d("ViewModel", "News Data Init")
-                coinRepos.getCoinNews(id, tenDaysAgoString, todayString ).collectLatest { result ->
+                coinRepos.getCoinNews(id, tenDaysAgoString, todayString, language = "en").collectLatest {result ->
                     when(result) {
                         is Result.Error -> {
                             Log.d("ViewModel", "Error")

@@ -1,5 +1,6 @@
 package com.example.codecompany_cryptotracker.presentation
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,11 +48,19 @@ import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.WatchListData
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AssetList(navController: NavController,
               watchList: WatchListData) {
+
+    val configuration = LocalConfiguration.current
+    val locale = configuration.locales.get(0) ?: Locale.getDefault()
+
+    Log.d("Debug", "${locale.displayName}")
+
+
 
     var tempviewModel = remember {
         CoinNameViewModel(CoinReposImp(RetrofitInstance.api), null)
