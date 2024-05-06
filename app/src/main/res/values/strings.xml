@@ -35,4 +35,12 @@
     <string name="terms_of_service">Terms of Condition</string>
     <string name="_2024_crypto_tracker_all_rights_reserved">© 2024 Crypto Tracker. All rights reserved.</string>
     <string name="crypto_tracker_watchlist">Watch List</string>
+    <string name="price_detailcard">Price($):</string>
+    <string name="market_cap_detailcard">Market Cap:</string>
+    <string name="_24h_change">24h Change:</string>
+    <string name="volume_24h">Volume (24h):</string>
+    <string name="ath">ATH:</string>
+    <string name="atl">ATL:</string>
+    <string name="market_cap_rank">Market Cap Rank:</string>
+    <string name="circulating_supply">Circulating Supply:</string>
 </resources>

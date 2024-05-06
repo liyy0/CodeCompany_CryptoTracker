@@ -45,7 +45,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -184,12 +183,14 @@ fun AssetDetail(navController: NavController,assetId: String?) {
                 item{
                     CoinDetail(coinData,coinTicker,navController)
                 }
+                item {
+                    if (coinMarketData != null) {
+                        CryptoInfoCard(coin = coinMarketData)
+                    }
+                }
 
                 item{
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                        if (coinMarketData != null) {
-                            CryptoInfoCard(coin = coinMarketData)
-                        }
                         Text(
                             text = stringResource(R.string.market),
                             style = MaterialTheme.typography.titleMedium,
@@ -266,6 +267,29 @@ fun AssetDetail(navController: NavController,assetId: String?) {
 fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: NavController) {
     var tradeUrl: String? = coinTicker.tickers.firstOrNull()?.tradeUrl
     Column {
+        // Trade button debug
+//        Text(text =coinTicker.toString())
+//        Spacer(modifier = Modifier.height(12.dp))
+//        Divider(modifier = Modifier
+//            .fillMaxWidth()
+//            .height(1.dp)
+//        )
+//        Text(text = coinTicker.tickers.toString())
+//        Spacer(modifier = Modifier.height(12.dp))
+//        Divider(modifier = Modifier
+//            .fillMaxWidth()
+//            .height(1.dp)
+//        )
+//        Text(text = coinTicker.tickers.firstOrNull().toString())
+//        Spacer(modifier = Modifier.height(12.dp))
+//        Divider(modifier = Modifier
+//            .fillMaxWidth()
+//            .height(1.dp)
+//        )
+//        Text(text = tradeUrl?:"")
+//        Spacer(modifier = Modifier.height(12.dp))
+        //debug usage
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -301,6 +325,8 @@ fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: Na
             ) {
                 Text(text = stringResource(R.string.trade))
             }
+
+
         }
 
 

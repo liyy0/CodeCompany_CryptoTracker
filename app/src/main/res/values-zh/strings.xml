@@ -36,4 +36,13 @@
     <string name="terms_of_service">服务条款</string>
     <string name="_2024_crypto_tracker_all_rights_reserved">© 2024 Crypto Tracker. All rights reserved.</string>
     <string name="crypto_tracker_watchlist">关注列表</string>
+    <string name="price_detailcard">价格($):</string>
+    <string name="market_cap_detailcard">市值:</string>
+    <string name="_24h_change">24小时变动:</string>
+    <string name="volume_24h">成交量 (24小时):</string>
+    <string name="ath">最高价:</string>
+    <string name="atl">最低价:</string>
+    <string name="market_cap_rank">市值排名:</string>
+    <string name="circulating_supply">流通供应量:</string>
+
 </resources>
