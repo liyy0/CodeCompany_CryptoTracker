@@ -11,13 +11,13 @@ data class Market(
 data class ConvertedLast(
     val btc: Double,
     val eth: Double,
-    val usd: Int
+    val usd: Double
 )
 
 data class ConvertedVolume(
     val btc: Double,
     val eth: Double,
-    val usd: Long
+    val usd: Double
 )
 
 data class Ticker(

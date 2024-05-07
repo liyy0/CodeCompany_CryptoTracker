@@ -120,9 +120,8 @@ fun AssetDetail(navController: NavController,assetId: String?) {
         CoinNameViewModel(CoinReposImp(RetrofitInstance.api), assetId)
     }
     val coinMarketData1 by marketViewModel.products.collectAsState()
-
-
     val coinMarketData = coinMarketData1.firstOrNull()
+
     var coinPrice = PriceviewModel.products.collectAsState().value
     var coinNews = newsViewModel.products.collectAsState().value.articles
     var coinData = CoinDataViewModel.products.collectAsState().value
