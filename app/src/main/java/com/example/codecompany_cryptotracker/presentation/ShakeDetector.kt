@@ -82,7 +82,7 @@ fun CoinTossApp(watchList: WatchListData) {
     // Shake detection setup
     val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     val shakeDetector = ShakeDetector {
-        watchList.addCoinId("bitcoin")
+        watchList.addCoinId(coinList.random())
         coinAdded = true
     }
 
