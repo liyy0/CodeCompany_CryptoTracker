@@ -1,4 +1,5 @@
 package com.example.codecompany_cryptotracker.presentation
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +43,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -62,11 +64,23 @@ import com.example.codecompany_cryptotracker.data.model.WatchListData
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitInstance
 import kotlinx.coroutines.delay
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Favorite(navController: NavController, watchList: WatchListData) {
+    val configuration = LocalConfiguration.current
+    val locale = configuration.locales.get(0) ?: Locale.getDefault()
+    var language:String = "en"
+    var currency:String = "usd"
+
+    Log.d("Debug-Locale", "${locale.language}")
+    if(locale.language.toString() == "zh"){
+        language = "zh"
+        currency = "cny"
+    }
+
     if(watchList.getCoinIds().isEmpty()){
         TopAppBar(title = {
             Text(text = "Toss A Coin")
@@ -75,7 +89,7 @@ fun Favorite(navController: NavController, watchList: WatchListData) {
     }
     else{
         val marketViewModel = remember {
-            CoinNameViewModel(CoinReposImp(RetrofitInstance.api), watchList.getCoinIdsAsString())
+            CoinNameViewModel(CoinReposImp(RetrofitInstance.api), watchList.getCoinIdsAsString(), vs_currency = currency, locale = language)
         }
 
         var coinMarketData1 by remember {
@@ -110,7 +124,7 @@ fun Favorite(navController: NavController, watchList: WatchListData) {
                         }) {
                             watchCoinInfo(
                                 coin = coin,
-                                onItemClick = { navController.navigate("AssetDetail/${coin.id}") },
+                                onItemClick = { navController.navigate("AssetDetail/${coin.id}/${coin.name}") },
                                 watchList = watchList
                             )
                         }

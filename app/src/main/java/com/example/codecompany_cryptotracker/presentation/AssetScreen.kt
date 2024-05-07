@@ -57,13 +57,18 @@ fun AssetList(navController: NavController,
 
     val configuration = LocalConfiguration.current
     val locale = configuration.locales.get(0) ?: Locale.getDefault()
+    var language:String = "en"
+    var currency:String = "usd"
 
-    Log.d("Debug", "${locale.displayName}")
-
+    Log.d("Debug-Locale", "${locale.language}")
+    if(locale.language.toString() == "zh"){
+        language = "zh"
+        currency = "cny"
+    }
 
 
     var tempviewModel = remember {
-        CoinNameViewModel(CoinReposImp(RetrofitInstance.api), null)
+        CoinNameViewModel(CoinReposImp(RetrofitInstance.api), null, vs_currency = currency, locale = language )
     }
     var coinNamesList = tempviewModel.products.collectAsState().value
     // State variable to hold the current search query
@@ -98,7 +103,7 @@ fun AssetList(navController: NavController,
             items(filteredList) { asset ->
                 AssetItem(asset,
                     onItemClick = {
-                        navController.navigate("AssetDetail/${asset.id}")
+                        navController.navigate("AssetDetail/${asset.id}/${asset.name}")
                     },
                     watchList
                 )
@@ -148,13 +153,13 @@ fun AssetItem(
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = stringResource(R.string.price, coin.currentPrice),
+                    text = stringResource(R.string.price, formatNumber(coin.currentPrice)),
                     style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
                     color = Color.Black.copy(alpha = 0.8f),
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = stringResource(R.string.price_change_24h, coin.priceChangePercentage24h),
+                    text = stringResource(R.string.price_change_24h, formatNumber(coin.priceChangePercentage24h)),
                     style = MaterialTheme.typography.bodyLarge, // Using bodyLarge
                     color = if (coin.priceChangePercentage24h >= 0) Color.Green else Color.Red,
                     modifier = Modifier.padding(bottom = 4.dp)

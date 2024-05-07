@@ -28,16 +28,20 @@ fun Navigation(navController: NavHostController,
                 watchList)
         }
         composable(
-            route = Screen.AssetDetail.route + "/{assetId}",
+            route = Screen.AssetDetail.route + "/{assetId}/{assetName}",
             arguments = listOf(
                 navArgument("assetId"){
                     type = NavType.StringType
+                    defaultValue = ""},
+                navArgument("assetName"){
+                    type = NavType.StringType
                     defaultValue = ""}
-
             )
         ) { backStackEntry ->
             val assetId = backStackEntry.arguments?.getString("assetId")
-            AssetDetail(navController = navController,assetId = assetId)
+            val assetName = backStackEntry.arguments?.getString("assetName")
+
+            AssetDetail(navController = navController,assetId = assetId, assetName = assetName)
         }
 
         composable(route = Screen.NewsList.route

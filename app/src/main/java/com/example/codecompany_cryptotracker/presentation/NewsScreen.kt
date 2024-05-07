@@ -1,6 +1,7 @@
 package com.example.codecompany_cryptotracker.presentation
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,14 +38,27 @@ import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.network.CoinReposImp
 import com.example.codecompany_cryptotracker.network.RetrofitNewsInstance
 import java.net.URLEncoder
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NewsList(navController: NavController) {
+    val configuration = LocalConfiguration.current
+    val locale = configuration.locales.get(0) ?: Locale.getDefault()
+    var language:String = "en"
+    var currency:String = "usd"
+    var target:String ="cryptocurrency"
+
+    Log.d("Debug-Locale", "${locale.language}")
+    if(locale.language.toString() == "zh"){
+        language = "zh"
+        currency = "cny"
+        target="虚拟货币"
+    }
 
     var newsViewModel = remember{
-            CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), "cryptocurrency")
+            CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), target,language)
     }
     var coinNews = newsViewModel.products.collectAsState().value.articles
 

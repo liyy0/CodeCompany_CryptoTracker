@@ -53,7 +53,7 @@ class CoinNewsViewModel
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 Log.d("ViewModel", "News Data Init")
-                coinRepos.getCoinNews(id, tenDaysAgoString, todayString, language = "en").collectLatest {result ->
+                coinRepos.getCoinNews(id, tenDaysAgoString, todayString, language).collectLatest {result ->
                     when(result) {
                         is Result.Error -> {
                             Log.d("ViewModel", "Error")

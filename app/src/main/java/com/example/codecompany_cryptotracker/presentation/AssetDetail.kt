@@ -43,6 +43,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -80,13 +81,23 @@ import com.example.codecompany_cryptotracker.network.RetrofitNewsInstance
 import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.Date
-
+import java.util.Locale
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun AssetDetail(navController: NavController,assetId: String?) {
+fun AssetDetail(navController: NavController,assetId: String?, assetName:String?) {
+    val configuration = LocalConfiguration.current
+    val locale = configuration.locales.get(0) ?: Locale.getDefault()
+    var language:String = "en"
+    var currency:String = "usd"
+
+    Log.d("Debug-Locale", "${locale.language}")
+    if(locale.language.toString() == "zh"){
+        language = "zh"
+        currency = "cny"
+    }
 
     var PriceviewModel = remember{
         if (assetId != null) {
@@ -110,8 +121,8 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     }
 
     var newsViewModel = remember{
-        if (assetId != null) {
-            CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), assetId)
+        if (assetName != null) {
+            CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), assetName, language = language)
         }
         else{CoinNewsViewModel(CoinReposImp(RetrofitNewsInstance.api), "BitCoin")}
     }
@@ -119,8 +130,10 @@ fun AssetDetail(navController: NavController,assetId: String?) {
     var marketViewModel = remember{
         CoinNameViewModel(CoinReposImp(RetrofitInstance.api), assetId)
     }
+
     val coinMarketData1 by marketViewModel.products.collectAsState()
     val coinMarketData = coinMarketData1.firstOrNull()
+
 
     var coinPrice = PriceviewModel.products.collectAsState().value
     var coinNews = newsViewModel.products.collectAsState().value.articles
@@ -656,5 +669,5 @@ fun graphpreview(){
 fun PreviewAssetDetail() {
 //    DeveloperSection()
     var navController = rememberNavController()
-    AssetDetail(navController = navController,assetId = "BitCoin")
+//    AssetDetail(navController = navController,assetId = "BitCoin")
 }
