@@ -1,4 +1,12 @@
 # CodeCompany Crypto Tracker
+Version 1.0.0
+
+Release Date: May 9, 2024 
+
+# CodeCompany Developer
+- Shuaiqi Huang
+- Yuyan Li
+- Zhangde Song
 
 # Motivation
 In today's dynamic cryptocurrency market, rapid price fluctuations present both opportunities and risks. However, individuals often find it challenging to monitor market movements continuously amidst daily activities such as travel, meals, and social engagements. Thankfully, modern technology empowers individuals to carry the functionality of a computer in their pockets through mobile phones.
@@ -102,19 +110,21 @@ Crypto Tracker will not use your local data or request your personal information
 - ACCELEROMETER SENSOR
 - WRITE & READ FROM LOCAL FILE
 
-# Important Functionality
+## Important Functionality
 
 ### Plotting Data
-In **AssetDetail.kt**, the `Chart()` function serves as a cornerstone for visualizing historical market data based on the selected date range (7 days, 30 days, or 90 days). By leveraging the `DottedLinechart()` function, this feature seamlessly renders charts, connecting coordinate points and offering users valuable insights into market trends.
+In **AssetDetail.kt** located in the presentation folder, we've incorporated a feature to visualize historical market data for users. At line 42, the `Chart()` function is utilized. This function accepts historical price, volume, and a list of dates, along with the selected date range from a radio button. It processes the data based on the specified date range (7 days, 30 days, or 90 days) and feeds these values into the `DottedLinechart()` function, responsible for rendering the chart by connecting coordinate points. The X-axis represents dates, while the Y-axis represents prices. Notably, only when the 7-day option is chosen, actual dates are displayed on the X-axis, while users retain the ability to interact with the plot for more precise values across all date ranges.
 
 ### Adding Crypto Currency to Favorite
-The **AssetScreen.kt** file introduces functionality enabling users to add crypto currencies to their favorites list. By simply clicking the star icon associated with each crypto currency on the main page, users can effortlessly curate their watchlist, enhancing their ability to track preferred assets and make informed decisions.
+On the main page (list of crypto currencies), each currency features a favorite icon. Clicking this icon adds the currency to the watchlist. In **AssetScreen.kt** at line 172, the function checks if the star icon for the currency is clicked, adding it to the watchlist. This is accomplished using the Android sandbox. Every click on the favorite icon or swipe of the coin item triggers a rewrite for the list in the application's file system. Since it only stores a list, there's no need for a database, reducing latency.
 
 ### Language Support
-The app boasts robust language support, with current implementation catering to Mandarin-speaking users. Through seamless language detection, the app dynamically adapts its content based on the user's device language, ensuring a personalized and inclusive user experience. The **AssetDetail.kt** function further enhances language support, enabling seamless display of content in the user's preferred language.
+The app supports multiple languages. Initially, only Mandarin is implemented, but additional languages can be added as needed. Upon app launch, the language is detected based on the device settings. For instance, if the device's language is English, the English version of the app is displayed. This functionality is implemented in the **AssetDetail** function in **AssetDetail.kt**.
 
 ### Shake to Add Coin, Swipe to Remove from Watchlist
-Incorporating intuitive gestures, the app allows users to shake their device to add a popular coin to their watchlist seamlessly. Utilizing the accelerometer sensor, the **ShakeDetector.kt** file detects device movement, triggering the addition of a coin to the watchlist upon a shake gesture. Furthermore, the **SwipeCard** function in **AssetScreen.kt** empowers users to effortlessly manage their watchlist by enabling swipe gestures for removing coins, enhancing overall usability and user engagement.
+Users can shake their device to add a popular coin to the watchlist if it's empty. In **ShakeDetector.kt**, a shake detector utilizing the device's accelerometer is added. Line 45 captures the device movement, adding a coin to the watchlist upon shaking. **Watchlist.kt** handles layout and navigation to corresponding currencies in the watchlist upon user click.
+
+The **SwipeCard** function at line 229 detects user swipes on a currency. If a swipe is detected, the currency is removed from the watchlist. Additionally, users can choose to unstar the currency. Swipe functionality is introduced using a Higher Order Component (HOC), which utilizes a "Box" component as only Box supports detectHorizontalDragGestures in Jetpack Compose. Each LazyColumn item in the watchlist is surrounded by a Box, enabling swipe-to-delete functionality.
 
 # Acknowledgment
 
