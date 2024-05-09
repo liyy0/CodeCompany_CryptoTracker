@@ -255,7 +255,7 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
 }
 
 
-
+// Top section of the asset detail screen
 @Composable
 fun CoinDetail(assetName: String?, coinTicker: CoinTickerData, navController: NavController) {
     // Extract trade URL from ticker data
@@ -309,7 +309,7 @@ fun CoinDetail(assetName: String?, coinTicker: CoinTickerData, navController: Na
     }
 }
 
-
+//News section of the asset detail screen
 @Composable
 fun LazyRowForNews(navController: NavController, news: List<Article>) {
     Column(modifier = Modifier.padding(vertical = 12.dp)) {
@@ -334,6 +334,8 @@ fun LazyRowForNews(navController: NavController, news: List<Article>) {
         }
     }
 }
+
+//News card for the news section lazyColumn
 @Composable
 fun NewsCard(navController: NavController, article: Article) {
     Card(
@@ -375,6 +377,7 @@ fun NewsCard(navController: NavController, article: Article) {
         }
     }
 }
+// Crypto info card for the asset detail screen
 fun simplifyValue(value: Float): String {
     return when {
         value >= 1e12 -> String.format("%.2fT", value / 1e12)
@@ -387,6 +390,7 @@ fun simplifyValue(value: Float): String {
         else -> String.format("%.2fn", value * 1000000000)
     }
 }
+// Crypto info card for the asset detail screen
 fun formatNumberWithCommas(number: Float): String {
     val numberString = number.toString()
     val parts = numberString.split(".")
@@ -404,6 +408,9 @@ fun formatNumberWithCommas(number: Float): String {
     }
     return formattedString.reverse().toString() + fractionalPart
 }
+
+// Crypto info card for the asset detail screen
+// chart for the asset detail screen
 @Composable
 fun Chart(
     pricesTransformed: List<Double>,
@@ -416,6 +423,7 @@ fun Chart(
     if (pricesTransformed.isEmpty() or total_volumesTransformed.isEmpty()){
         Text(stringResource(R.string.no_data_available))
     }else{
+        //Different time period display
         if (daterange.value == 7 && pricesTransformed.size >= 7 && total_volumesTransformed.size >=7 && dateData.size >= 7){
             input_pricesTransformed = pricesTransformed.subList(pricesTransformed.size-7,pricesTransformed.size).mapIndexed { index, value ->
                 Point(index.toFloat(), value.toFloat())
@@ -474,7 +482,7 @@ fun Chart(
         Spacer(modifier = Modifier.height(12.dp))
     }
 }
-
+//chart for the asset detail screen
 @Composable
 fun DottedLinechart(pointsData: List<Point>,dateData: List<String>,daterange: Int) {
     var stepSize = 10.dp
@@ -566,6 +574,7 @@ fun DottedLinechart(pointsData: List<Point>,dateData: List<String>,daterange: In
     )
 }
 
+// preview for testing
 @Preview
 @Composable
 fun graphpreview(){

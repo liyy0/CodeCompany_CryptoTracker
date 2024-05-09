@@ -1,7 +1,6 @@
 package com.example.codecompany_cryptotracker.network
 
 import com.example.codecompany_cryptotracker.data.model.CoinData
-import com.example.codecompany_cryptotracker.data.model.CoinName
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNews
 import com.example.codecompany_cryptotracker.data.model.CoinTickerData

@@ -70,6 +70,8 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Favorite(navController: NavController, watchList: WatchListData) {
+
+    // set the language and currency based on the locale
     val configuration = LocalConfiguration.current
     val locale = configuration.locales.get(0) ?: Locale.getDefault()
     var language:String = "en"
@@ -222,6 +224,8 @@ fun CoinItem(coin: CoinNameItem) {
         }
     }
 }
+
+// Composable function to display the favourite icon button
 @Composable
 fun SwipeCard(
     onSwipeLeftOrRight: () -> Unit = {},

@@ -54,7 +54,7 @@ import java.util.Locale
 @Composable
 fun AssetList(navController: NavController,
               watchList: WatchListData) {
-
+// set the language and currency based on the locale
     val configuration = LocalConfiguration.current
     val locale = configuration.locales.get(0) ?: Locale.getDefault()
     var language:String = "en"
@@ -66,6 +66,7 @@ fun AssetList(navController: NavController,
         currency = "cny"
     }
 
+    //make network call to get the list of coins
 
     var tempviewModel = remember {
         CoinNameViewModel(CoinReposImp(RetrofitInstance.api), null, vs_currency = currency, locale = language )
@@ -112,6 +113,7 @@ fun AssetList(navController: NavController,
     }
     }
 
+// Composable function to display the asset item and market data
 @Composable
 fun AssetItem(
     coin: CoinNameItem,
@@ -134,6 +136,7 @@ fun AssetItem(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            //pull image based and url
             AsyncImage(
                 model = coin.image,
                 contentDescription = coin.name,
@@ -146,6 +149,7 @@ fun AssetItem(
             Column(
                 modifier = Modifier.weight(1f)
             ) {
+                // Displaying the asset name
                 Text(
                     text = coin.name,
                     style = MaterialTheme.typography.titleLarge, // Using titleLarge
@@ -169,6 +173,7 @@ fun AssetItem(
         }
     }
 }
+// Composable function to display the favourite icon button
 @Composable
 fun FavouriteIconButton(watchList: WatchListData, coin:CoinNameItem){
     var isStarred by remember { mutableStateOf(false)}

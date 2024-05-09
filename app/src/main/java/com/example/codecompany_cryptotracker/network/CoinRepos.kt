@@ -1,15 +1,13 @@
 package com.example.codecompany_cryptotracker.network
 
 import com.example.codecompany_cryptotracker.data.model.CoinData
-import com.example.codecompany_cryptotracker.data.model.CoinName
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNews
 import com.example.codecompany_cryptotracker.data.model.CoinTickerData
 import com.example.codecompany_cryptotracker.data.model.MarketChartDataModel
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.Path
-import retrofit2.http.Query
 
+//interface for coins repository
 interface CoinRepos {
         suspend fun getAllCoinList(curreny: String, locale: String, id: String?): Flow<Result<List<CoinNameItem>>>
 

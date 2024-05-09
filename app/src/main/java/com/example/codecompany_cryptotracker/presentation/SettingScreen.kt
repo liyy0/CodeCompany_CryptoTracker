@@ -45,9 +45,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.local.Developer
-
-
-
 data class Setting(val name: String, val contents: String, val id: Int)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,10 +60,9 @@ fun SettingScreen() {
             Setting(developerstring, developer_content, 0),
             Setting(feedback, feedback_content, 1),
             Setting(rate, rate_content, 2),
-
         )
     }
-    var expandedItem by remember { mutableStateOf(0) }
+    var expandedItem by remember {mutableStateOf(0)}
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -79,10 +75,7 @@ fun SettingScreen() {
         Column(
             modifier = Modifier.weight(1f)
         ) {
-
-
             LazyColumn {
-
                 items(settingItems) { setting ->
                     ExpandableCard(
                         content = setting,
@@ -101,8 +94,9 @@ fun SettingScreen() {
         }
         FooterSection()
     }
-
 }
+
+// Developer section of the setting screen
 @Composable
 fun DeveloperSection(){
     val developer = listOf(
@@ -136,11 +130,10 @@ fun DeveloperSection(){
     }
 }
 
+// Developer info in the setting screen
 @Composable
 fun DeveloperItem(developer: Developer ) {
-
     Row(
-//        modifier = Modifier.padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
@@ -158,6 +151,7 @@ fun DeveloperItem(developer: Developer ) {
     }
 }
 
+// Footer section of the setting screen
 @Composable
 fun FooterSection() {
     Column(
@@ -196,7 +190,7 @@ fun FooterSection() {
 }
 
 
-
+// Expandable card composable function
 @Composable
 fun ExpandableCard(content: Setting, expanded: Boolean, onClickExpanded:(id:Int) -> Unit ) {
     val transition = updateTransition(targetState = expanded, label = "trans")
@@ -237,6 +231,7 @@ fun ExpandableCard(content: Setting, expanded: Boolean, onClickExpanded:(id:Int)
 
 }
 
+// content of the expanded card
 @Composable
 fun ExpandedContent(isExpanded: Boolean, desc:String) {
 

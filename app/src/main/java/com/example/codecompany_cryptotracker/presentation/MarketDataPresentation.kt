@@ -7,28 +7,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
-
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Typography
 import androidx.compose.material3.Divider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.codecompany_cryptotracker.R
 
+
 @Composable
 fun CryptoInfoCard(coin: CoinNameItem) {
+    // Card with coin information
     Column(
 
     ) {
@@ -48,6 +45,7 @@ fun CryptoInfoCard(coin: CoinNameItem) {
     }
 }
 
+// CoinInfoRow composable to display coin information
 @Composable
 fun CoinInfoRow(title: String, value: String) {
     Surface(
@@ -77,6 +75,7 @@ fun CoinInfoRow(title: String, value: String) {
     }
 }
 
+// Function to format numbers
 fun formatNumber(number: Number): String {
     val formattedNumber = when (number) {
         is Double -> {
@@ -106,7 +105,7 @@ fun formatNumber(number: Number): String {
     }
 }
 
-
+// support for long numbers
 fun formatNumber(number: Long): String {
     return when {
         number >= 1_000_000_000 -> "${String.format("%.2f", number.toDouble() / 1_000_000_000)}B"

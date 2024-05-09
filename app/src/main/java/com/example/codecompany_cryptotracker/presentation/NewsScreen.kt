@@ -44,6 +44,7 @@ import java.util.Locale
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NewsList(navController: NavController) {
+    // set the language and currency based on the locale
     val configuration = LocalConfiguration.current
     val locale = configuration.locales.get(0) ?: Locale.getDefault()
     var language:String = "en"

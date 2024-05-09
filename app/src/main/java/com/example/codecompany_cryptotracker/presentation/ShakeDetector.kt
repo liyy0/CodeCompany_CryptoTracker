@@ -35,6 +35,8 @@ import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.WatchListData
 import kotlinx.coroutines.delay
 
+
+// Shake detection logic
 class ShakeDetector(private val onShakeDetected: () -> Unit) : SensorEventListener {
     private val shakeThreshold = 1000
     private var lastUpdate: Long = 0
@@ -69,7 +71,7 @@ class ShakeDetector(private val onShakeDetected: () -> Unit) : SensorEventListen
     }
 }
 
-
+// shake to add a coin to the watch list
 @Composable
 fun CoinTossApp(watchList: WatchListData) {
     val context = LocalContext.current
