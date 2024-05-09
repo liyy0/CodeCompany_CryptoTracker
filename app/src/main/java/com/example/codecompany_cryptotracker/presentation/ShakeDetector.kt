@@ -28,8 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.WatchListData
 import kotlinx.coroutines.delay
 
@@ -103,7 +105,7 @@ fun CoinTossApp(watchList: WatchListData) {
     ) {
         if (!coinAdded) {
             Text(
-                text = "There is no coin in your watch list. Toss a coin (Shake your phone) and come back again",
+                text = stringResource(R.string.toss_coin),
                 fontSize = 18.sp,
                 modifier = Modifier.padding(16.dp)
             )
@@ -127,7 +129,7 @@ fun CoinTossApp(watchList: WatchListData) {
             }
         } else {
             Text(
-                text = "Coin added to watch list!",
+                text = stringResource(R.string.coin_added_to_watch_list),
                 fontSize = 18.sp,
                 modifier = Modifier.padding(16.dp)
             )

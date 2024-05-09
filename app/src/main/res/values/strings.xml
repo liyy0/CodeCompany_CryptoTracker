@@ -48,4 +48,7 @@
     <string name="low">Low: $%1$s</string>
     <string name="price_change_24h_watchlist">Price Change 24h: %1$s (%2$s%%)</string>
     <string name="toss_a_coin">Toss A Coin</string>
+    <string name="toss_coin">There is no coin in your watch list. Toss a coin (Shake your phone) and come back again</string>
+    <string name="coin_added_to_watch_list">Coin added to watch list!</string>
+    <string name="search">Search</string>
 </resources>

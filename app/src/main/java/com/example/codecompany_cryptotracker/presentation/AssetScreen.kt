@@ -89,7 +89,7 @@ fun AssetList(navController: NavController,
         TextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
-            label = { Text("Search") },
+            label = { Text(stringResource(R.string.search)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)

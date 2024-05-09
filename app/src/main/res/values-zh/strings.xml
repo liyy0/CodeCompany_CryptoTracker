@@ -6,9 +6,9 @@
     <string name="favorite">收藏</string>
     <string name="settings">设置</string>
     <string name="crypto_tracker">货币市场</string>
-    <string name="price">价格: $%1$s</string>
-    <string name="market_cap">市值: $%1$s</string>
-    <string name="price_change_24h">价格变动（24小时）: ¥1$s%%</string>
+    <string name="price">价格: ¥%1$s</string>
+    <string name="market_cap">市值: ¥%1$s</string>
+    <string name="price_change_24h">价格变动（24小时）: %1$s%%</string>
     <string name="unknown">未知</string>
     <string name="market">市场</string>
     <string name="week">周</string>
@@ -47,8 +47,10 @@
     <string name="current_price">当前价格: ¥%1$s</string>
     <string name="_24h_high">24小时最高价: ¥%1$s</string>
     <string name="low">最低价: ¥%1$s</string>
-    <string name="price_change_24h_watchlist">24小时价格变动: 1$s (%2$s%%)</string>
+    <string name="price_change_24h_watchlist">24小时价格变动: %1$s (%2$s%%)</string>
     <string name="toss_a_coin">抛硬币</string>
-
+    <string name="toss_coin">没有任何币种。摇一摇手机，再次回来。</string>
+    <string name="coin_added_to_watch_list">币种已添加！</string>
+    <string name="search">查询</string>
 
 </resources>
