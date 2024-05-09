@@ -10,7 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
-
+// CoinReposImp is the implementation of CoinRepos interface
+// It is responsible for fetching data from the network
 class CoinReposImp(
     private val api: ApiInterface
 ): CoinRepos{

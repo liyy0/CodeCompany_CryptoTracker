@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+//ViewModel for CoinName
 class CoinNameViewModel (
         private val coinRepos: CoinRepos,
     private val id: String?,
@@ -27,26 +27,6 @@ class CoinNameViewModel (
 
         private val _showErrorToastChannel = Channel<Boolean>()
         val showErrorToastChannel = _showErrorToastChannel.receiveAsFlow()
-
-        fun changeLocal(currency:String, locale: String){
-            viewModelScope.launch {
-                coinRepos.getAllCoinList(currency, locale, id).collectLatest { result ->
-                    when(result) {
-                        is Result.Error -> {
-                            Log.d("ViewModel", "Error")
-                            _showErrorToastChannel.send(true)
-                        }
-                        is Result.Success -> {
-                            Log.d("ViewModel", "Success Coin Name List")
-                            result.data?.let { products ->
-                                _products.update { products }
-                            }
-                            Log.d("ViewModel", products.value.toString())
-                        }
-                    }
-                }
-            }
-        }
 
         init {
             viewModelScope.launch {

@@ -1,7 +1,8 @@
 package com.example.codecompany_cryptotracker.data.model
 
 import com.google.gson.annotations.SerializedName
-
+// Data Class for Coin Information from CoinGecko API
+// For News Display in Coins Detail Screen and News Screen
 data class CoinNews(
     val status: String,
     @SerializedName("totalResults") val totalResults: Int,

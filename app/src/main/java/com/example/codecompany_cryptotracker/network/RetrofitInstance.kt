@@ -4,7 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+// RetrofitInstance is a singleton class that creates a Retrofit instance
 object RetrofitInstance {
 
         private val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {

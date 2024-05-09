@@ -2,7 +2,9 @@ package com.example.codecompany_cryptotracker.data.model
 import android.content.Context
 import org.json.JSONArray
 
+//Context is for write to sandbox
 class WatchListData (private val context: Context) {
+
         private val coinIds: MutableList<String> = mutableListOf()
 
         init {
@@ -63,6 +65,7 @@ class WatchListData (private val context: Context) {
             }
         }
 
+    // Function to get the list of coinIds as a string
     fun getCoinIdsAsString(): String {
         return coinIds.joinToString(",")
     }

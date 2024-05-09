@@ -2,6 +2,8 @@ package com.example.codecompany_cryptotracker.data.model
 
 import com.google.gson.annotations.SerializedName
 
+// Data Class for Coin Information from CoinGecko API
+// For Market Data Display in Coins Screen and Favorites Screen
 data class CoinNameItem(
     val id: String,
     val symbol: String,

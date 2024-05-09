@@ -90,29 +90,22 @@ import java.util.Locale
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AssetDetail(navController: NavController,assetId: String?, assetName:String?) {
+    // Get the current locale and set the language to Chinese if the locale is Chinese
     val configuration = LocalConfiguration.current
     val locale = configuration.locales.get(0) ?: Locale.getDefault()
     var language:String = "en"
-    var currency:String = "usd"
 
     Log.d("Debug-Locale", "${locale.language}")
     if(locale.language.toString() == "zh"){
         language = "zh"
-        currency = "cny"
     }
 
+    //make network request to get the data
     var PriceviewModel = remember{
         if (assetId != null) {
             MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), assetId)
         }
         else{MarketChartDataViewModel(CoinReposImp(RetrofitInstance.api), "BitCoin")}
-    }
-
-    var CoinDataViewModel = remember{
-        if (assetId != null) {
-            CoinDataViewModel(CoinReposImp(RetrofitInstance.api), assetId)
-        }
-        else{CoinDataViewModel(CoinReposImp(RetrofitInstance.api), "BitCoin")}
     }
 
     var CoinTickerViewModel = remember{
@@ -133,27 +126,22 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
         CoinNameViewModel(CoinReposImp(RetrofitInstance.api), assetId)
     }
 
+    //collect the data from the viewmodel
     val coinMarketData1 by marketViewModel.products.collectAsState()
     val coinMarketData = coinMarketData1.firstOrNull()
-
-
     var coinPrice = PriceviewModel.products.collectAsState().value
     var coinNews = newsViewModel.products.collectAsState().value.articles
-    var coinData = CoinDataViewModel.products.collectAsState().value
     var coinTicker = CoinTickerViewModel.products.collectAsState().value
 
-
+    //transform the data
     val pricesTransformed = coinPrice.prices.map {
         it[1]
     }
-
 
     val sdf = SimpleDateFormat("MM-dd")
     val dateData = coinPrice.prices.map{
         sdf.format(Date(it[0].toLong()))
     }
-
-
 
     val total_volumesTransformed = coinPrice.total_volumes.map {
         it[1]
@@ -253,9 +241,6 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
                             }
                         }
                     }
-
-
-
                 }
                 item {
                     Chart(pricesTransformed,total_volumesTransformed, dateData,daterange)
@@ -264,9 +249,6 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
                     LazyRowForNews(navController = navController, coinNews)
                 }
             }
-
-
-
         }
     }
 
@@ -276,14 +258,19 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
 
 @Composable
 fun CoinDetail(assetName: String?, coinTicker: CoinTickerData, navController: NavController) {
+    // Extract trade URL from ticker data
     var tradeUrl: String? = coinTicker.tickers.firstOrNull()?.tradeUrl
+
+    // Column to organize UI elements vertically
     Column {
+        // Row to organize UI elements horizontally
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+            // Column for displaying asset name
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = assetName ?: stringResource(R.string.unknown),
@@ -293,10 +280,13 @@ fun CoinDetail(assetName: String?, coinTicker: CoinTickerData, navController: Na
                     maxLines = 1
                 )
             }
+            // Column for trade button and "no trade available" message
             Column{
+                // Trade button
                 Button(
                     onClick = {
                         if (tradeUrl != null) {
+                            // Navigate to web view with encoded trade URL
                             navController.navigate("webView/${URLEncoder.encode(tradeUrl, "UTF-8")}")
                         }
                     },
@@ -305,18 +295,20 @@ fun CoinDetail(assetName: String?, coinTicker: CoinTickerData, navController: Na
                 ) {
                     Text(text = stringResource(R.string.trade))
                 }
+                // Display "no trade available" message if tradeUrl is null
                 if(tradeUrl == null){
                     Text(
                         text = stringResource(R.string.no_trade_available),
                         style = TextStyle(color = Color.Red)
                     )
-
                 }
             }
         }
+        // Spacer for adding space between elements
         Spacer(modifier = Modifier.height(12.dp))
     }
 }
+
 
 @Composable
 fun LazyRowForNews(navController: NavController, news: List<Article>) {
@@ -342,7 +334,6 @@ fun LazyRowForNews(navController: NavController, news: List<Article>) {
         }
     }
 }
-
 @Composable
 fun NewsCard(navController: NavController, article: Article) {
     Card(

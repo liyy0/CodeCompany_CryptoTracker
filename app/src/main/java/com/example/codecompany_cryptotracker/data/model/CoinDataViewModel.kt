@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
+//ViewModel for CoinData
 class CoinDataViewModel
     (private val coinRepos: CoinRepos, private val id: String): ViewModel() {
     var initialValue = CoinData(

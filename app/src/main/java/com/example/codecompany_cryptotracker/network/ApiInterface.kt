@@ -21,6 +21,7 @@ interface ApiInterface {
         @Query("ids") id: String?
     ): CoinName
 
+// Get trade URL from here
     @GET("coins/{id}")
     suspend fun getCoinDataById(
         @Path("id") id: String,
@@ -44,6 +45,7 @@ interface ApiInterface {
         @Query("depth") depth: Boolean = false
     ): CoinTickerData
 
+//Get Coin Price Change Data for Chart Plotting
     @GET("coins/{id}/market_chart")
     suspend fun getMarketChart(
         @Path("id") id: String,

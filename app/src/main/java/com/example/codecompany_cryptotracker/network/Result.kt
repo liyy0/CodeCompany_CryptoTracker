@@ -1,7 +1,7 @@
 package com.example.codecompany_cryptotracker.network
 
 
-
+// Clearly showing the result of the network call
 sealed class Result<T>(
     val data: T? = null,
     val message: String? = null
