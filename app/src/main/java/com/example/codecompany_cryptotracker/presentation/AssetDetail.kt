@@ -228,6 +228,9 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
                                                     "week" -> 7
                                                     "month" -> 30
                                                     "Longer" -> 90
+                                                    "周" -> 7
+                                                    "月" -> 30
+                                                    "更长时间" -> 90
                                                     else -> 7
                                                 }
                                             },
@@ -254,14 +257,8 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
 
                 }
                 item {
-
-                }
-                item {
                     Chart(pricesTransformed,total_volumesTransformed, dateData,daterange)
                 }
-//                item {
-//                    Chart(total_volumesTransformed, dateData,daterange,"Total Volume","The overall amount of trading activity, showing how much of the cryptocurrency has been bought and sold within a specific time frame.")
-//                }
                 item {
                     LazyRowForNews(navController = navController, coinNews)
                 }

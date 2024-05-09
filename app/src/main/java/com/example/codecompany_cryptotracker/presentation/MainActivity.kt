@@ -44,7 +44,6 @@ import com.example.codecompany_cryptotracker.R
 
 
 import com.example.codecompany_cryptotracker.ui.theme.CodeCompany_CryptoTrackerTheme
-import com.example.codecompany_cryptotracker.util.loadAssets
 import com.example.codecompany_cryptotracker.common.Navigation
 import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
