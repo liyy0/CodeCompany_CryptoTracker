@@ -109,9 +109,9 @@ The **ui.theme** folder is dedicated to setting the color scheme for the app, en
 - WRITE & READ FROM LOCAL FILE
 
 ## Potential Problem When Running This App
-# API Server Might down: 
+### API Server Might down: 
 Since we are using a free tier version, the API server might put our request at a low priority when there is heavy traffic on the server side. That sometimes results a fail in api call. 
-# News Might not Open:
+### News Might not Open:
 The typical method of viewing a news article involves navigating to the URL where the news is published. There may be compatibility issues of version and dependency between the browser provided by the phone and the news provider's website. This could lead to a failure to open the news article. Specifically, some browers on the phone might not support JavaScript with the version that required by the news provided.
 ## Privacy
 
