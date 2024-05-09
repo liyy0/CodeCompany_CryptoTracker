@@ -52,5 +52,6 @@
     <string name="toss_coin">没有任何币种。摇一摇手机，再次回来。</string>
     <string name="coin_added_to_watch_list">币种已添加！</string>
     <string name="search">查询</string>
+    <string name="no_trade_available">没有交易网址</string>
 
 </resources>

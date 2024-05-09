@@ -47,6 +47,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -292,25 +293,29 @@ fun CoinDetail(assetName: String?, coinTicker: CoinTickerData, navController: Na
                     maxLines = 1
                 )
             }
-            Button(
-                onClick = {
-                    if (tradeUrl != null) {
-                        navController.navigate("webView/${URLEncoder.encode(tradeUrl, "UTF-8")}")
-                    }
-                },
-                modifier = Modifier.padding(start = 8.dp),
-                enabled = tradeUrl != null  // Disable button if tradeUrl is null
-            ) {
-                Text(text = stringResource(R.string.trade))
+            Column{
+                Button(
+                    onClick = {
+                        if (tradeUrl != null) {
+                            navController.navigate("webView/${URLEncoder.encode(tradeUrl, "UTF-8")}")
+                        }
+                    },
+                    modifier = Modifier.padding(start = 8.dp),
+                    enabled = tradeUrl != null  // Disable button if tradeUrl is null
+                ) {
+                    Text(text = stringResource(R.string.trade))
+                }
+                if(tradeUrl == null){
+                    Text(
+                        text = stringResource(R.string.no_trade_available),
+                        style = TextStyle(color = Color.Red)
+                    )
+
+                }
             }
-
-
         }
         Spacer(modifier = Modifier.height(12.dp))
-
-
     }
-
 }
 
 @Composable

@@ -51,4 +51,5 @@
     <string name="toss_coin">There is no coin in your watch list. Toss a coin (Shake your phone) and come back again</string>
     <string name="coin_added_to_watch_list">Coin added to watch list!</string>
     <string name="search">Search</string>
+    <string name="no_trade_available">No Trade Url avaliable!</string>
 </resources>

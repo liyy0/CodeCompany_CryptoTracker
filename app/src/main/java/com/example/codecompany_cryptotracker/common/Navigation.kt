@@ -49,6 +49,7 @@ fun Navigation(navController: NavHostController,
             NewsList(navController = navController)
         }
 
+
         composable("webView/{url}", arguments = listOf(navArgument("url") { type = NavType.StringType })) { backStackEntry ->
             WebViewScreen(url = backStackEntry.arguments?.getString("url") ?: "")
         }
