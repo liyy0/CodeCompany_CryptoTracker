@@ -30,7 +30,7 @@
     <string name="rate_us">Rate Us</string>
     <string name="rate_us_here">Rate Us here</string>
     <string name="version_1_0_0">Version: 1.0.0</string>
-    <string name="release_date_april_17_2024">Release Date: April 17, 2024</string>
+    <string name="release_date_april_17_2024">Release Date: May 9, 2024</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_of_service">Terms of Condition</string>
     <string name="_2024_crypto_tracker_all_rights_reserved">© 2024 Crypto Tracker. All rights reserved.</string>
@@ -51,5 +51,5 @@
     <string name="toss_coin">There is no coin in your watch list. Toss a coin (Shake your phone) and come back again</string>
     <string name="coin_added_to_watch_list">Coin added to watch list!</string>
     <string name="search">Search</string>
-    <string name="no_trade_available">No Trade Url avaliable!</string>
+    <string name="no_trade_available">No Trade Url available!</string>
 </resources>
