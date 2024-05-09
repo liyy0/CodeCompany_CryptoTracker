@@ -70,6 +70,7 @@ import com.example.codecompany_cryptotracker.R
 import com.example.codecompany_cryptotracker.data.model.Article
 import com.example.codecompany_cryptotracker.data.model.CoinData
 import com.example.codecompany_cryptotracker.data.model.CoinDataViewModel
+import com.example.codecompany_cryptotracker.data.model.CoinNameItem
 import com.example.codecompany_cryptotracker.data.model.CoinNameViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinNewsViewModel
 import com.example.codecompany_cryptotracker.data.model.CoinTickerData
@@ -172,7 +173,7 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
             TopAppBar(
                 title = {
                     Text(
-                        text = assetId ?: stringResource(R.string.unknown),
+                        text = assetName ?: stringResource(R.string.unknown),
                         modifier = Modifier.fillMaxWidth() // Making sure the text takes full width
                     )
                 },
@@ -189,11 +190,11 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
                 .padding(padding)
                 .padding(16.dp)
         ) {
-//            Text(text = pricesPoints.size.toString())
-
             LazyColumn {
                 item{
-                    CoinDetail(coinData,coinTicker,navController)
+                    if (coinMarketData != null) {
+                        CoinDetail(assetName,coinTicker,navController)
+                    }
                 }
                 item {
                     if (coinMarketData != null) {
@@ -205,7 +206,7 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                         Text(
                             text = stringResource(R.string.market),
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.titleLarge,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
@@ -241,7 +242,7 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
                                     )
                                     Text(
                                         text = text,
-                                        style = MaterialTheme.typography.bodySmall,
+                                        style = MaterialTheme.typography.titleMedium,
                                         modifier = Modifier.padding(start = 4.dp)
                                     )
                                 }
@@ -276,32 +277,9 @@ fun AssetDetail(navController: NavController,assetId: String?, assetName:String?
 
 
 @Composable
-fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: NavController) {
+fun CoinDetail(assetName: String?, coinTicker: CoinTickerData, navController: NavController) {
     var tradeUrl: String? = coinTicker.tickers.firstOrNull()?.tradeUrl
     Column {
-        // Trade button debug
-//        Text(text =coinTicker.toString())
-//        Spacer(modifier = Modifier.height(12.dp))
-//        Divider(modifier = Modifier
-//            .fillMaxWidth()
-//            .height(1.dp)
-//        )
-//        Text(text = coinTicker.tickers.toString())
-//        Spacer(modifier = Modifier.height(12.dp))
-//        Divider(modifier = Modifier
-//            .fillMaxWidth()
-//            .height(1.dp)
-//        )
-//        Text(text = coinTicker.tickers.firstOrNull().toString())
-//        Spacer(modifier = Modifier.height(12.dp))
-//        Divider(modifier = Modifier
-//            .fillMaxWidth()
-//            .height(1.dp)
-//        )
-//        Text(text = tradeUrl?:"")
-//        Spacer(modifier = Modifier.height(12.dp))
-        //debug usage
-
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -310,21 +288,12 @@ fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: Na
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = coinData.name,
+                    text = assetName ?: stringResource(R.string.unknown),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
                 )
-                coinData.id?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.Bold,
-                        overflow = TextOverflow.Ellipsis,
-                        maxLines = 1
-                    )
-                }
             }
             Button(
                 onClick = {
@@ -340,14 +309,8 @@ fun CoinDetail(coinData: CoinData, coinTicker: CoinTickerData ,navController: Na
 
 
         }
-
-
         Spacer(modifier = Modifier.height(12.dp))
-        Divider(modifier = Modifier
-            .fillMaxWidth()
-            .height(1.dp)
-        )
-        Spacer(modifier = Modifier.height(12.dp))
+
 
     }
 
@@ -358,7 +321,7 @@ fun LazyRowForNews(navController: NavController, news: List<Article>) {
     Column(modifier = Modifier.padding(vertical = 12.dp)) {
         Text(
             text = stringResource(R.string.latest_news),
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
@@ -488,12 +451,12 @@ fun Chart(
 //        Text(input_points.toString())
         Text(
             text = stringResource(R.string.price_detail),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = stringResource(R.string.price_description),
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodyLarge
         )
         DottedLinechart(input_pricesTransformed, input_dateData,daterange.value)
         Spacer(modifier = Modifier.height(12.dp))
@@ -503,12 +466,12 @@ fun Chart(
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = stringResource(R.string.total_volume),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
             text = stringResource(R.string.volume_description),
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodyLarge
         )
         DottedLinechart(input_volumnTransformed, input_dateData,daterange.value)
         Spacer(modifier = Modifier.height(12.dp))
@@ -620,33 +583,6 @@ fun graphpreview(){
         arrayOf(1712987205024, 67553.83499477942),
         arrayOf(1712987425229, 67484.5419511034),
         arrayOf(1712987709906, 67528.10219970117),
-//        arrayOf(1712988056035, 67402.31677956472),
-//        arrayOf(1712988382837, 67462.12660777815),
-//        arrayOf(1712988675451, 67492.6275078025),
-//        arrayOf(1712988942112, 67493.31976499925),
-//        arrayOf(1712989262232, 67278.32864858327),
-//        arrayOf(1712989532135, 67298.98549494924),
-//        arrayOf(1712989818276, 67339.97980475398),
-//        arrayOf(1712990103520, 67307.61569401757),
-//        arrayOf(1712990430473, 67407.40293988558),
-//        arrayOf(1712990748774, 67471.08558882782),
-//        arrayOf(1712991016959, 67357.5685899125),
-//        arrayOf(1712991352380, 67365.92413195697),
-//        arrayOf(1712991625606, 67500.54595407809),
-//        arrayOf(1712991949605, 67514.92273075809),
-//        arrayOf(1712992219954, 67529.83695113784),
-//        arrayOf(1712992572708, 67401.29921412093),
-//        arrayOf(1712992843502, 67239.50810618968),
-//        arrayOf(1712993113903, 67249.10369450266),
-//        arrayOf(1712993427643, 67343.63041487713),
-//        arrayOf(1712993725391, 67376.20946516907),
-//        arrayOf(1712994072538, 67502.24391428393),
-//        arrayOf(1712994332106, 67483.55533913216),
-//        arrayOf(1712994600380, 67445.37407756124),
-//        arrayOf(1712994991946, 67360.31296351513),
-//        arrayOf(1712995247504, 67420.29572696098),
-//        arrayOf(1712995512951, 67395.72383299933),
-//        arrayOf(1712995853660, 67283.87127088389)
     )
 
     val transformedPrices = prices.mapIndexed { index, array ->
@@ -669,5 +605,5 @@ fun graphpreview(){
 fun PreviewAssetDetail() {
 //    DeveloperSection()
     var navController = rememberNavController()
-//    AssetDetail(navController = navController,assetId = "BitCoin")
+    AssetDetail(navController = navController,assetId = "BitCoin", assetName = "BitCoin")
 }

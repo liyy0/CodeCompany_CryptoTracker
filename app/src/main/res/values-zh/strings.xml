@@ -46,7 +46,7 @@
     <string name="circulating_supply">流通供应量:</string>
     <string name="current_price">当前价格: ¥%1$s</string>
     <string name="_24h_high">24小时最高价: ¥%1$s</string>
-    <string name="low">最低价: ¥%1$s</string>
+    <string name="low">24小时最低价: ¥%1$s</string>
     <string name="price_change_24h_watchlist">24小时价格变动: %1$s (%2$s%%)</string>
     <string name="toss_a_coin">抛硬币</string>
     <string name="toss_coin">没有任何币种。摇一摇手机，再次回来。</string>

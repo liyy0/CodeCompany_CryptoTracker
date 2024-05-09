@@ -164,7 +164,7 @@ fun watchCoinInfo(coin: CoinNameItem,
                     .clip(RoundedCornerShape(50)),
                 contentScale = ContentScale.Crop,
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             CoinItem(coin)
             FavouriteIconButton(watchList = watchList, coin = coin )
         }
@@ -195,17 +195,15 @@ fun CoinItem(coin: CoinNameItem) {
                 style = TextStyle(fontSize = 14.sp)
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Row {
-                Text(
-                    text = stringResource(R.string._24h_high, formatNumber(coin.high24h)),
-                    style = TextStyle(fontSize = 14.sp, color = Color.Red)
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = stringResource(R.string.low, formatNumber(coin.low24h)),
-                    style = TextStyle(fontSize = 14.sp, color = Color(0xFF008000))
-                )
-            }
+            Text(
+                text = stringResource(R.string._24h_high, formatNumber(coin.high24h)),
+                style = TextStyle(fontSize = 14.sp, color = Color.Red)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = stringResource(R.string.low, formatNumber(coin.low24h)),
+                style = TextStyle(fontSize = 14.sp, color = Color(0xFF008000))
+            )
             Spacer(modifier = Modifier.height(4.dp))
             val priceChangeColor = when {
                 coin.priceChange24h > 0 -> Color.Red

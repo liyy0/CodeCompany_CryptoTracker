@@ -72,7 +72,7 @@ fun SettingScreen() {
         modifier = Modifier.fillMaxSize()
     ) {
         TopAppBar(
-            title = { Text(text = stringResource(R.string.crypto_tracker),style = MaterialTheme.typography.titleLarge,) },
+            title = { Text(text = stringResource(R.string.app_name),style = MaterialTheme.typography.titleLarge,) },
 //            backgroundColor = MaterialTheme.colors.primary,
             modifier = Modifier.fillMaxWidth()
         )
