@@ -3,10 +3,18 @@ Version 1.0.0
 
 Release Date: May 9, 2024 
 
-# CodeCompany Developer
+### CodeCompany Developer
 - Shuaiqi Huang
 - Yuyan Li
 - Zhangde Song
+
+### Work Distribution
+Shuaiqi Huang: Navigation bar, settings page, cryptocurrency detail page
+
+Yuyan Li: Data display, graph visualization, cryptocurrency detail page, Localization
+
+Zhangde Song: Fetching data from API calls, news detail page
+
 
 # Motivation
 In today's dynamic cryptocurrency market, rapid price fluctuations present both opportunities and risks. However, individuals often find it challenging to monitor market movements continuously amidst daily activities such as travel, meals, and social engagements. Thankfully, modern technology empowers individuals to carry the functionality of a computer in their pockets through mobile phones.
