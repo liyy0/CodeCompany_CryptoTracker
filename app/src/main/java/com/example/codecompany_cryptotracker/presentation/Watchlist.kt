@@ -83,7 +83,7 @@ fun Favorite(navController: NavController, watchList: WatchListData) {
 
     if(watchList.getCoinIds().isEmpty()){
         TopAppBar(title = {
-            Text(text = "Toss A Coin")
+            Text(text = stringResource(R.string.toss_a_coin))
         })
         CoinTossApp(watchList)
     }
@@ -191,23 +191,18 @@ fun CoinItem(coin: CoinNameItem) {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Current Price: $${formatNumber(coin.currentPrice)}",
-                style = TextStyle(fontSize = 14.sp)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Market Cap: $${formatNumber(coin.marketCap)}",
+                text = stringResource(R.string.current_price, formatNumber(coin.currentPrice)),
                 style = TextStyle(fontSize = 14.sp)
             )
             Spacer(modifier = Modifier.height(4.dp))
             Row {
                 Text(
-                    text = "24h High: $${formatNumber(coin.high24h)}",
+                    text = stringResource(R.string._24h_high, formatNumber(coin.high24h)),
                     style = TextStyle(fontSize = 14.sp, color = Color.Red)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "Low: $${formatNumber(coin.low24h)}",
+                    text = stringResource(R.string.low, formatNumber(coin.low24h)),
                     style = TextStyle(fontSize = 14.sp, color = Color(0xFF008000))
                 )
             }
@@ -218,7 +213,11 @@ fun CoinItem(coin: CoinNameItem) {
                 else -> Color.Black
             }
             Text(
-                text = "Price Change 24h: ${formatNumber(coin.priceChange24h)} (${formatNumber(coin.priceChangePercentage24h)}%)",
+                text = stringResource(
+                    R.string.price_change_24h_watchlist,
+                    formatNumber(coin.priceChange24h),
+                    formatNumber(coin.priceChangePercentage24h)
+                ),
                 style = TextStyle(fontSize = 14.sp, color = priceChangeColor)
             )
             // Add more information as needed

@@ -5,10 +5,10 @@
     <string name="news">新闻</string>
     <string name="favorite">收藏</string>
     <string name="settings">设置</string>
-    <string name="crypto_tracker">加密货币跟踪器</string>
+    <string name="crypto_tracker">货币市场</string>
     <string name="price">价格: $%1$s</string>
     <string name="market_cap">市值: $%1$s</string>
-    <string name="price_change_24h">价格变动（24小时）: %1$s%%</string>
+    <string name="price_change_24h">价格变动（24小时）: ¥1$s%%</string>
     <string name="unknown">未知</string>
     <string name="market">市场</string>
     <string name="week">周</string>
@@ -31,12 +31,12 @@
     <string name="rate_us">评价</string>
     <string name="rate_us_here">在这里给我们评价</string>
     <string name="version_1_0_0">版本: 1.0.0</string>
-    <string name="release_date_april_17_2024">发布日期: 2024 年 4 月 17 日</string>
+    <string name="release_date_april_17_2024">发布日期: 2024 年 5 月 9 日</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="terms_of_service">服务条款</string>
     <string name="_2024_crypto_tracker_all_rights_reserved">© 2024 Crypto Tracker. All rights reserved.</string>
     <string name="crypto_tracker_watchlist">关注列表</string>
-    <string name="price_detailcard">价格($):</string>
+    <string name="price_detailcard">价格(¥):</string>
     <string name="market_cap_detailcard">市值:</string>
     <string name="_24h_change">24小时变动:</string>
     <string name="volume_24h">成交量 (24小时):</string>
@@ -44,5 +44,11 @@
     <string name="atl">最低价:</string>
     <string name="market_cap_rank">市值排名:</string>
     <string name="circulating_supply">流通供应量:</string>
+    <string name="current_price">当前价格: ¥%1$s</string>
+    <string name="_24h_high">24小时最高价: ¥%1$s</string>
+    <string name="low">最低价: ¥%1$s</string>
+    <string name="price_change_24h_watchlist">24小时价格变动: 1$s (%2$s%%)</string>
+    <string name="toss_a_coin">抛硬币</string>
+
 
 </resources>

@@ -43,4 +43,9 @@
     <string name="atl">ATL:</string>
     <string name="market_cap_rank">Market Cap Rank:</string>
     <string name="circulating_supply">Circulating Supply:</string>
+    <string name="current_price">Current Price: $%1$s</string>
+    <string name="_24h_high">24h High: $%1$s</string>
+    <string name="low">Low: $%1$s</string>
+    <string name="price_change_24h_watchlist">Price Change 24h: %1$s (%2$s%%)</string>
+    <string name="toss_a_coin">Toss A Coin</string>
 </resources>
