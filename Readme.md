@@ -89,28 +89,31 @@ The **ui.theme** folder is dedicated to setting the color scheme for the app, en
 ## Technologies / Dependencies
 
 - Java
-- Android SDK
+- Android SDK: minSdk = 26
 - AndroidX
 - Preview: Android WebView
 - Data Plotting: Ychart
+- API: retrofit2:converter-gson:2.9.0
+- Navigation: navigation-compose
 - Build system: Gradle
 
 ## External Resources
 
 - Cryptocurrency API: [https://api.coingecko.com/api/v3/](https://api.coingecko.com/api/v3/)
 - News API: [https://newsapi.org/](https://newsapi.org/)
-
-## Privacy
-
-Crypto Tracker will not use your local data or request your personal information. No personal data is shared with the author or any third parties. The app does not involve any trading recommendation mechanism nor any trade involving real currency. Files are stored locally in a user-selectable folder, defaulting to the internal storage "Documents" directory.
-
+  
 ## Android Permissions
 
 - INTERNET
 - ACCELEROMETER SENSOR
 - WRITE & READ FROM LOCAL FILE
 
-## Important Functionality
+## Privacy
+
+Crypto Tracker will not use your local data or request your personal information. No personal data is shared with the author or any third parties. The app does not involve any trading recommendation mechanism nor any trade involving real currency. Files are stored locally in a user-selectable folder, defaulting to the internal storage "Documents" directory.
+
+
+# Important Functionality
 
 ### Plotting Data
 In **AssetDetail.kt** located in the presentation folder, we've incorporated a feature to visualize historical market data for users. At line 42, the `Chart()` function is utilized. This function accepts historical price, volume, and a list of dates, along with the selected date range from a radio button. It processes the data based on the specified date range (7 days, 30 days, or 90 days) and feeds these values into the `DottedLinechart()` function, responsible for rendering the chart by connecting coordinate points. The X-axis represents dates, while the Y-axis represents prices. Notably, only when the 7-day option is chosen, actual dates are displayed on the X-axis, while users retain the ability to interact with the plot for more precise values across all date ranges.
